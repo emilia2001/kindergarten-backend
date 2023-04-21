@@ -1,6 +1,6 @@
 package kindergarten.management.service;
 
-import kindergarten.management.model.EUserRole;
+import kindergarten.management.model.enums.EUserRole;
 import kindergarten.management.model.dto.UserLoginDto;
 import kindergarten.management.model.entity.User;
 import kindergarten.management.repository.AdminRepository;

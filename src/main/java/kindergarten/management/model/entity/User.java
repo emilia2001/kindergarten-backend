@@ -4,7 +4,11 @@ import lombok.Data;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
-import javax.persistence.*;
+import javax.persistence.Column;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
+import javax.persistence.MappedSuperclass;
+import javax.persistence.GenerationType;
 import java.util.Collection;
 
 @Data
@@ -15,10 +19,10 @@ public class User implements UserDetails {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(name="username")
+    @Column(name = "username")
     private String username;
 
-    @Column(name="password")
+    @Column(name = "password")
     private String password;
 
     @Override

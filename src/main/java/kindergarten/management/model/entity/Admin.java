@@ -2,9 +2,11 @@ package kindergarten.management.model.entity;
 
 import javax.persistence.*;
 
-import kindergarten.management.model.EUserRole;
+import kindergarten.management.model.enums.EUserRole;
+import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
+import lombok.NoArgsConstructor;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 
@@ -15,6 +17,7 @@ import java.util.List;
 @Data
 @Entity
 @Table(name="admin")
+@AllArgsConstructor
 @EqualsAndHashCode(callSuper=false)
 public class Admin extends User {
 

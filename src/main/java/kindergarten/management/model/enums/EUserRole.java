@@ -1,4 +1,4 @@
-package kindergarten.management.model;
+package kindergarten.management.model.enums;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -7,7 +7,7 @@ import lombok.Getter;
 @AllArgsConstructor
 @Getter
 public enum EUserRole {
-    ADMIN("ADMIN"), PARENT("TEACHER");
+    ADMIN("ADMIN"), PARENT("PARENT");
 
     private String role;
 

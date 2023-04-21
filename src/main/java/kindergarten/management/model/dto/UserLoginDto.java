@@ -1,6 +1,6 @@
 package kindergarten.management.model.dto;
 
-import kindergarten.management.model.EUserRole;
+import kindergarten.management.model.enums.EUserRole;
 import lombok.Data;
 
 @Data

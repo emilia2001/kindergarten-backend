@@ -1,7 +1,7 @@
 package kindergarten.management.config;
 
 import io.jsonwebtoken.*;
-import kindergarten.management.model.EUserRole;
+import kindergarten.management.model.enums.EUserRole;
 import kindergarten.management.model.entity.Parent;
 import kindergarten.management.model.entity.User;
 import kindergarten.management.service.AdminService;
@@ -12,6 +12,7 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Component;
+import org.springframework.util.StringUtils;
 
 import javax.annotation.PostConstruct;
 import java.util.Base64;
@@ -48,12 +49,12 @@ public class JwtTokenProvider {
 //        claims.put("firstName",parent.getFirstName());
 //        claims.put("lastName",parent.getLastName());
 //        claims.put("email", parent.getEmail());
-//        claims.put("role", parent.getRole());
+        claims.put("role", EUserRole.PARENT);
         } else {
 //        claims.put("firstName",parent.getFirstName());
 //        claims.put("lastName",parent.getLastName());
 //        claims.put("email", parent.getEmail());
-//        claims.put("role", parent.getRole());
+        claims.put("role", EUserRole.ADMIN);
         }
         Date now = new Date();
         Date validity = new Date(now.getTime() + validityInMilliseconds);
@@ -80,11 +81,11 @@ public class JwtTokenProvider {
     }
 
     private EUserRole getRole(String token) {
-        return (EUserRole) Jwts.parser().setSigningKey(secretKey).parseClaimsJws(token).getBody().get("role");
+        return EUserRole.valueOf((String) Jwts.parser().setSigningKey(secretKey).parseClaimsJws(token).getBody().get("role"));
     }
 
 
-    boolean validateToken(String token) {
+    boolean validateToken(final String token) {
         try {
             Jws<Claims> claims = Jwts.parser().setSigningKey(secretKey).parseClaimsJws(token);
             return !claims.getBody().getExpiration().before(new Date());

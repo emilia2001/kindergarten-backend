@@ -1,9 +1,53 @@
 package kindergarten.management.model.entity;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+import lombok.*;
+
+import javax.persistence.*;
+import java.sql.Date;
+import java.util.ArrayList;
+import java.util.List;
+
+@Data
+@Entity
+@Table(name="child")
+@NoArgsConstructor
+@AllArgsConstructor
+@EqualsAndHashCode(callSuper=false)
 public class Child {
-    private Long id;
+
+    @Id
     private String cnp;
+
+    @Column(name = "first_name")
     private String firstName;
+
+    @Column(name = "last_name")
     private String lastName;
-    private Long groupId;
+
+    @Column(name = "date_of_birth")
+    private Date dateOfBirth;
+
+    @Column(name = "picture")
+    private byte[] picture;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "contact_person_id")
+    private Parent parent;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "group_id")
+    private Group group;
+
+    @OneToMany(
+            mappedBy = "child",
+            cascade = CascadeType.ALL,
+            orphanRemoval = true
+    )
+    private List<Attendance> attendances = new ArrayList<>();
+
+    public String getContact() {
+        return parent.getPhoneNumber();
+    }
 }
