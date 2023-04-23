@@ -1,9 +1,11 @@
 package kindergarten.management.model.entity;
 
 import com.fasterxml.jackson.annotation.JsonManagedReference;
+import kindergarten.management.model.enums.EGroupType;
 import lombok.*;
 
 import javax.persistence.*;
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -13,7 +15,7 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 @EqualsAndHashCode(callSuper=false)
-public class Group {
+public class Group implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -25,8 +27,9 @@ public class Group {
     @Column(name = "capacity")
     private Integer capacity;
 
+    @Enumerated(EnumType.STRING)
     @Column(name = "group_type")
-    private String groupType;
+    private EGroupType groupType;
 
     @OneToMany(mappedBy = "group",
             cascade = CascadeType.ALL,

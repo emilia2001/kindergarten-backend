@@ -13,4 +13,8 @@ public class Endpoints {
     public static final String GET_ALL_TEACHERS ="/all";
     public static final String ADD_TEACHER ="/add";
 
+    // GROUP
+    public static final String GROUP = "/group";
+    public static final String GET_ALL_GROUPS ="/all";
+
 }

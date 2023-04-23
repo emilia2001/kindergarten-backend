@@ -1,6 +1,7 @@
 package kindergarten.management.model.entity;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.*;
 
 import javax.persistence.*;
@@ -15,6 +16,7 @@ import javax.persistence.*;
 public class Attendance {
 
     @Id
+    @JsonIgnore
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "child_id", referencedColumnName="cnp")
     private Child child;

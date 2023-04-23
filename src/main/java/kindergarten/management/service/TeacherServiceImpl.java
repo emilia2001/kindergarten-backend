@@ -1,6 +1,7 @@
 package kindergarten.management.service;
 
 import kindergarten.management.mapper.TeacherMapper;
+import kindergarten.management.model.dto.teacher.TeacherAddDto;
 import kindergarten.management.model.dto.teacher.TeacherDto;
 import kindergarten.management.model.entity.Group;
 import kindergarten.management.model.entity.Teacher;
@@ -22,14 +23,14 @@ public class TeacherServiceImpl implements TeacherService {
     private final TeacherMapper teacherMapper;
 
     @Override
-    public List<Teacher> findAllTeachers() {
-        return teacherRepository.findAll();
+    public List<TeacherDto> findAllTeachers() {
+        return teacherMapper.entitiesToTeacherDtos(teacherRepository.findAll());
     }
 
     @Override
-    public Teacher addTeacher(TeacherDto teacherDto) {
-        Teacher teacherToBeAdded = teacherMapper.toEntity(teacherDto);
-        Optional<Group> teacherGroup = groupRepository.findById(teacherDto.getGroupId());
+    public Teacher addTeacher(TeacherAddDto teacherAddDto) {
+        Teacher teacherToBeAdded = teacherMapper.toEntityFromTeacherAddDto(teacherAddDto);
+        Optional<Group> teacherGroup = groupRepository.findById(teacherAddDto.getGroupId());
         teacherToBeAdded.setGroup(teacherGroup.get());
         return teacherRepository.save(teacherToBeAdded);
     }

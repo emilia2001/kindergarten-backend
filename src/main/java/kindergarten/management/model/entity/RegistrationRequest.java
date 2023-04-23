@@ -1,6 +1,7 @@
 package kindergarten.management.model.entity;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.ToString;
@@ -32,6 +33,7 @@ public class RegistrationRequest {
     @Column(name = "parents_employee_certificates")
     private byte[] parentsEmployeeCertificates;
 
+    @JsonIgnore
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "group_id")
     private Group group;

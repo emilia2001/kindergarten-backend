@@ -1,9 +1,11 @@
 package kindergarten.management.model.entity;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.*;
 
 import javax.persistence.*;
+import java.io.Serializable;
 import java.sql.Date;
 import java.time.LocalDate;
 
@@ -13,7 +15,7 @@ import java.time.LocalDate;
 @NoArgsConstructor
 @AllArgsConstructor
 @EqualsAndHashCode(callSuper=false)
-public class Teacher {
+public class Teacher implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
