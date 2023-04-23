@@ -1,12 +1,9 @@
 package kindergarten.management.model.entity;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.*;
 
 import javax.persistence.*;
 import java.io.Serializable;
-import java.sql.Date;
 import java.time.LocalDate;
 
 @Data

@@ -3,7 +3,6 @@ package kindergarten.management.controller;
 import kindergarten.management.constants.Endpoints;
 import kindergarten.management.model.dto.teacher.TeacherAddDto;
 import kindergarten.management.model.dto.teacher.TeacherDto;
-import kindergarten.management.model.entity.Teacher;
 import kindergarten.management.service.TeacherService;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -26,13 +25,12 @@ public class TeacherController {
 
 
     @GetMapping(value = Endpoints.GET_ALL_TEACHERS, produces = APPLICATION_JSON_VALUE)
-    public ResponseEntity<List<TeacherDto>> getTeachers() {
+    public ResponseEntity<List<TeacherDto>> getAll() {
         return ResponseEntity.ok(teacherService.findAllTeachers());
     }
 
-
     @PostMapping(value = Endpoints.ADD_TEACHER, consumes = APPLICATION_JSON_VALUE, produces = APPLICATION_JSON_VALUE)
-    public ResponseEntity addTeacher(final @RequestBody TeacherAddDto teacherAddDto) {
+    public ResponseEntity add(final @RequestBody TeacherAddDto teacherAddDto) {
         System.out.println(teacherAddDto);
         try {
             teacherService.addTeacher(teacherAddDto);
@@ -41,6 +39,11 @@ public class TeacherController {
         }
         System.out.println(teacherAddDto);
         return new ResponseEntity(HttpStatus.OK);
+    }
+
+    @GetMapping(value = Endpoints.GET_TEACHER, produces = APPLICATION_JSON_VALUE)
+    public ResponseEntity<TeacherDto> getOneById(@PathVariable("id") final Long id) {
+        return ResponseEntity.ok(teacherService.findOneById(id));
     }
 
 }

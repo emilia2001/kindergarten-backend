@@ -1,6 +1,5 @@
 package kindergarten.management.model.entity;
 
-import com.fasterxml.jackson.annotation.JsonManagedReference;
 import kindergarten.management.model.enums.EGroupType;
 import lombok.*;
 

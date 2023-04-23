@@ -11,4 +11,7 @@ public interface TeacherService {
     List<TeacherDto> findAllTeachers();
 
     Teacher addTeacher(TeacherAddDto teacherAddDto);
+
+    TeacherDto findOneById(final Long id);
+
 }

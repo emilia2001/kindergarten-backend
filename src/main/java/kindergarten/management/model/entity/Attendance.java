@@ -1,6 +1,5 @@
 package kindergarten.management.model.entity;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.*;
 
@@ -26,4 +25,5 @@ public class Attendance {
 
     @Column(name = "no_attendances")
     private Integer noAttendances;
+
 }

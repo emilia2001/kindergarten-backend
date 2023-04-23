@@ -35,4 +35,9 @@ public class TeacherServiceImpl implements TeacherService {
         return teacherRepository.save(teacherToBeAdded);
     }
 
+    @Override
+    public TeacherDto findOneById(Long id) {
+        return teacherMapper.toTeacherDto(teacherRepository.getById(id));
+    }
+
 }
