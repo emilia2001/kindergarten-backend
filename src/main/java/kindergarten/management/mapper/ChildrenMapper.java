@@ -1,6 +1,7 @@
 package kindergarten.management.mapper;
 
 import kindergarten.management.model.dto.child.ChildDto;
+import kindergarten.management.model.dto.child.ChildPaymentDto;
 import kindergarten.management.model.entity.Child;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
@@ -9,7 +10,7 @@ import org.mapstruct.Named;
 import java.util.Base64;
 import java.util.List;
 
-@Mapper(componentModel = "spring", uses = ParentMapper.class)
+@Mapper(componentModel = "spring", uses = {ParentMapper.class, GroupMapper.class})
 public interface ChildrenMapper {
 
     @Mapping(source = "picture", target = "picture", qualifiedByName = "base64ToByteArray")
@@ -17,7 +18,13 @@ public interface ChildrenMapper {
 
     @Mapping(source = "picture", target = "picture", qualifiedByName = "byteArrayToBase64")
     ChildDto toDto(Child child);
+    @Mapping(source = "picture", target = "picture", qualifiedByName = "base64ToByteArray")
+    Child toEntityFromChildPaymentDto(ChildPaymentDto childPaymentDto);
+
     List<ChildDto> toDtos(List<Child> child);
+
+    @Mapping(source = "picture", target = "picture", qualifiedByName = "byteArrayToBase64")
+    ChildPaymentDto toPaymentDto(Child child);
 
     @Named("base64ToByteArray")
     static byte[] base64ToByteArray(String base64String) {

@@ -13,7 +13,7 @@ public class Endpoints {
     public static final String GET_ALL_TEACHERS ="/all";
     public static final String ADD_TEACHER ="/add";
     public static final String GET_TEACHER = "/get/{id}";
-
+    public static final String UPDATE_TEACHER = "/update/{id}";
 
     // GROUP
     public static final String GROUP = "/group";
@@ -21,6 +21,19 @@ public class Endpoints {
 
     // CHILDREN
     public static final String CHILDREN = "/children";
-    public static final String GET_ALL_CHLDREN = "/all";
+    public static final String GET_ALL_CHILDREN = "/all";
     public static final String ADD_CHILD = "/add";
+    public static final String GET_CHILD = "/get/{id}";
+
+    // ATTENDANCE
+    public static final String ATTENDANCE = "/attendance";
+    public static final String GET_ALL_ATTENDANCES_BY_MONTH = "/all/{month}";
+    public static final String ADD_ATTENDANCES = "/add";
+
+    // PAYMENT
+    public static final String PAYMENT = "/payment";
+
+    public static final String GET_ALL_PAYMENTS_BY_MONTH = "/all/{month}";
+    public static final String UPDATE_PAYMENT = "/update/{id}";
+
 }

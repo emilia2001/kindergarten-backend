@@ -7,7 +7,6 @@ import javax.persistence.*;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
-
 @Data
 @Entity
 @Table(name="child")
@@ -41,6 +40,7 @@ public class Child {
     @JoinColumn(name = "group_id")
     private Group group;
 
+    @JsonIgnore
     @OneToMany(
             mappedBy = "child",
             cascade = CascadeType.ALL,
@@ -48,7 +48,13 @@ public class Child {
     )
     private List<Attendance> attendances = new ArrayList<>();
 
-    public String getContact() {
-        return parent.getPhoneNumber();
-    }
+    @JsonIgnore
+    @OneToMany(
+            mappedBy = "child",
+            cascade = CascadeType.ALL,
+            orphanRemoval = true
+    )
+    private List<Payment> payments = new ArrayList<>();
+
 }
+

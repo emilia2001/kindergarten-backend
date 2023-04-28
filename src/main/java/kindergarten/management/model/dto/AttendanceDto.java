@@ -4,16 +4,16 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.time.LocalDate;
+
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class ParentDto {
+public class AttendanceDto {
 
-    private String firstName;
+    private Long id;
 
-    private String lastName;
+    private String childCnp;
 
-    private String phoneNumber;
-
-    private String email;
+    private LocalDate date;
 }

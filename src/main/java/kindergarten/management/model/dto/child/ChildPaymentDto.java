@@ -1,4 +1,4 @@
-package kindergarten.management.model.dto.teacher;
+package kindergarten.management.model.dto.child;
 
 import kindergarten.management.model.dto.GroupDto;
 import lombok.AllArgsConstructor;
@@ -10,18 +10,17 @@ import java.time.LocalDate;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class TeacherDto {
-    private Long id;
+public class ChildPaymentDto {
+
+    private String cnp;
 
     private String firstName;
 
     private String lastName;
 
-    private String description;
-
     private LocalDate dateOfBirth;
 
     private String picture;
 
-    private GroupDto groupDto;
+    private GroupDto group;
 }

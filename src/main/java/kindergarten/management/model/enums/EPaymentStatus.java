@@ -5,9 +5,8 @@ import lombok.Getter;
 
 @AllArgsConstructor
 @Getter
-public enum EGroupType {
-    JUNIOR("JUNIOR"), MIDDLE("MIDDLE"), SENIOR("SENIOR");
+public enum EPaymentStatus {
+    UNPAID("NEPLATITA"), PAID("PLATITA");
 
-    private String type;
-
+    private String status;
 }

@@ -9,7 +9,7 @@ import javax.persistence.*;
 @Entity
 @Table(name="extension_request")
 @EqualsAndHashCode(callSuper=false)
-public class ExtensionRequest {
+public class ExtensionRequest extends Request {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

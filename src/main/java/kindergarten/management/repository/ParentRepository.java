@@ -10,4 +10,5 @@ public interface ParentRepository extends JpaRepository<Parent, Long> {
 
     Parent findByUsername(@Param("username") String username);
 
+    Parent findByPhoneNumber(@Param("phone_number") String phoneNumber);
 }

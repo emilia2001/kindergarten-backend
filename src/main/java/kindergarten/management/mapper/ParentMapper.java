@@ -10,5 +10,7 @@ import java.util.List;
 public interface ParentMapper {
 
     ParentDto toDto(Parent parent);
+
+    Parent toEntity(ParentDto parentDto);
     List<ParentDto> toDto(List<Parent> parent);
 }

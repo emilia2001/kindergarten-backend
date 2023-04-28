@@ -6,7 +6,9 @@ import java.util.List;
 
 public interface ChildrenService {
 
-    List<ChildDto> getAll();
+    List<ChildDto> findAllChildren();
 
     void addChild(ChildDto childDto);
+
+    ChildDto findOneById(String cnp);
 }

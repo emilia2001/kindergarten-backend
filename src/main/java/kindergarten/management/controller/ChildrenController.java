@@ -23,18 +23,23 @@ public class ChildrenController {
     private final ChildrenService childrenService;
 
 
-    @GetMapping(value = Endpoints.GET_ALL_CHLDREN, produces = APPLICATION_JSON_VALUE)
+    @GetMapping(value = Endpoints.GET_ALL_CHILDREN, produces = APPLICATION_JSON_VALUE)
     public ResponseEntity<List<ChildDto>> getAll() {
-        return ResponseEntity.ok(childrenService.getAll());
+        return ResponseEntity.ok(childrenService.findAllChildren());
     }
 
     @PostMapping(value = Endpoints.ADD_CHILD, consumes = APPLICATION_JSON_VALUE, produces = APPLICATION_JSON_VALUE)
-    public ResponseEntity add(final ChildDto childDto) {
+    public ResponseEntity add(@RequestBody final ChildDto childDto) {
         try {
             childrenService.addChild(childDto);
         } catch (Exception e) {
             return new ResponseEntity(HttpStatus.BAD_REQUEST);
         }
         return new ResponseEntity(HttpStatus.OK);
+    }
+
+    @GetMapping(value = Endpoints.GET_CHILD, produces = APPLICATION_JSON_VALUE)
+    public ResponseEntity<ChildDto> getOneById(@PathVariable("id") final String cnp) {
+        return ResponseEntity.ok(childrenService.findOneById(cnp));
     }
 }

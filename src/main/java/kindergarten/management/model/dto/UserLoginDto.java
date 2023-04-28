@@ -7,7 +7,9 @@ import lombok.Data;
 public class UserLoginDto {
 
     private String username;
+
     private String password;
+
     private EUserRole role;
 
 }

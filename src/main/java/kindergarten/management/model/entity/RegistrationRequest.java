@@ -10,11 +10,7 @@ import javax.persistence.*;
 @Entity
 @Table(name="registration_request")
 @EqualsAndHashCode(callSuper=false)
-public class RegistrationRequest {
-
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+public class RegistrationRequest extends Request {
 
     @Column(name = "application_form")
     private byte[] application_form;

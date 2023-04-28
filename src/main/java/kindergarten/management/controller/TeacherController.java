@@ -31,19 +31,28 @@ public class TeacherController {
 
     @PostMapping(value = Endpoints.ADD_TEACHER, consumes = APPLICATION_JSON_VALUE, produces = APPLICATION_JSON_VALUE)
     public ResponseEntity add(final @RequestBody TeacherAddDto teacherAddDto) {
-        System.out.println(teacherAddDto);
         try {
             teacherService.addTeacher(teacherAddDto);
         } catch (Exception e) {
             return new ResponseEntity(HttpStatus.BAD_REQUEST);
         }
-        System.out.println(teacherAddDto);
         return new ResponseEntity(HttpStatus.OK);
     }
 
     @GetMapping(value = Endpoints.GET_TEACHER, produces = APPLICATION_JSON_VALUE)
     public ResponseEntity<TeacherDto> getOneById(@PathVariable("id") final Long id) {
         return ResponseEntity.ok(teacherService.findOneById(id));
+    }
+
+    @PutMapping(value = Endpoints.UPDATE_TEACHER, consumes = APPLICATION_JSON_VALUE, produces = APPLICATION_JSON_VALUE)
+    public ResponseEntity<Void> update(@PathVariable("id") final Long id, @RequestBody final TeacherAddDto teacherDto) {
+        try {
+            teacherDto.setId(id);
+            teacherService.addTeacher(teacherDto);
+            return new ResponseEntity<>(HttpStatus.OK);
+        } catch (Exception e) {
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
     }
 
 }
