@@ -30,13 +30,13 @@ public class TeacherController {
     }
 
     @PostMapping(value = Endpoints.ADD_TEACHER, consumes = APPLICATION_JSON_VALUE, produces = APPLICATION_JSON_VALUE)
-    public ResponseEntity add(final @RequestBody TeacherAddDto teacherAddDto) {
+    public ResponseEntity<Void> add(final @RequestBody TeacherAddDto teacherAddDto) {
         try {
             teacherService.addTeacher(teacherAddDto);
         } catch (Exception e) {
-            return new ResponseEntity(HttpStatus.BAD_REQUEST);
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
-        return new ResponseEntity(HttpStatus.OK);
+        return new ResponseEntity<>(HttpStatus.OK);
     }
 
     @GetMapping(value = Endpoints.GET_TEACHER, produces = APPLICATION_JSON_VALUE)

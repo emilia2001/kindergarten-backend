@@ -23,6 +23,7 @@ public class Endpoints {
     public static final String CHILDREN = "/children";
     public static final String GET_ALL_CHILDREN = "/all";
     public static final String ADD_CHILD = "/add";
+    public static final String UPDATE_CHILD = "/update";
     public static final String GET_CHILD = "/get/{id}";
 
     // ATTENDANCE
@@ -32,8 +33,23 @@ public class Endpoints {
 
     // PAYMENT
     public static final String PAYMENT = "/payment";
-
-    public static final String GET_ALL_PAYMENTS_BY_MONTH = "/all/{month}";
+    public static final String GET_ALL_PAYMENTS_BY_MONTH = "/all/month/{month}";
+    public static final String GET_ALL_PAYMENTS_BY_PARENT = "/all/id/{id}";
     public static final String UPDATE_PAYMENT = "/update/{id}";
+
+    // ANNOUNCEMENT
+    public static final String ANNOUNCEMENT = "/announcement";
+    public static final String GET_ALL_ANNOUNCEMENTS = "/all";
+    public static final String ADD_ANNOUNCEMENT = "/add";
+    public static final String UPDATE_ANNOUNCEMENT = "/update";
+    public static final String DELETE_ANNOUNCEMENT = "/delete/{id}";
+
+    // REQUESTS
+
+    public static final String REQUEST = "/request";
+    public static final String GET_ALL_REQUESTS = "/all";
+    public static final String GET_ALL_REQUESTS_FOR_PARENT = "/all/{id}";
+
+
 
 }

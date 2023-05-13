@@ -5,9 +5,8 @@ import lombok.Getter;
 
 @AllArgsConstructor
 @Getter
-public enum EUserRole {
-    ADMIN("ADMIN"), PARENT("PARENT");
+public enum ERequestType {
+    REGISTRATION("REGISTRATION"), EXTENSION("EXTENSION");
 
-    private String role;
-
+    private String type;
 }

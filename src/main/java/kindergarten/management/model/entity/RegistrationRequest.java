@@ -31,4 +31,8 @@ public class RegistrationRequest extends Request {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "group_id")
     private Group group;
+
+//    @ManyToOne(fetch = FetchType.LAZY)
+//    @Column(name = "requester_id")
+//    private Parent requester;
 }

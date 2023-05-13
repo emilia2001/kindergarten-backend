@@ -47,7 +47,8 @@ public class JwtTokenProvider {
         if (user instanceof Parent) {
 //        claims.put("firstName",parent.getFirstName());
 //        claims.put("lastName",parent.getLastName());
-//        claims.put("email", parent.getEmail());
+//        claims.put("email", ((Parent) user).getEmail());
+            claims.put("id", user.getId());
         claims.put("role", EUserRole.PARENT);
         } else {
 //        claims.put("firstName",parent.getFirstName());

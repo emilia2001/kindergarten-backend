@@ -41,6 +41,15 @@ public class Parent extends User {
     @ToString.Exclude
     private List<Child> children = new ArrayList<>();
 
+//    @OneToMany(
+//            mappedBy = "requester",
+//            cascade = CascadeType.ALL,
+//            orphanRemoval = true
+//    )
+//    @JsonManagedReference
+//    @ToString.Exclude
+//    private List<Request> requests = new ArrayList<>();
+
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         List<GrantedAuthority> authorityList = new ArrayList<>();

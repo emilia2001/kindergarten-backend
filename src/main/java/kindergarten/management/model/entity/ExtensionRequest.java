@@ -17,4 +17,10 @@ public class ExtensionRequest extends Request {
 
     @Column(name = "application_form")
     private byte[] application_form;
+
+//    @ManyToOne(fetch = FetchType.LAZY)
+//    @Column(name = "requester_id")
+//    private Parent requester;
+
+
 }

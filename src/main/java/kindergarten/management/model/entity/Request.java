@@ -18,4 +18,5 @@ public class Request {
 
     @Column(name = "comments")
     private String comments;
+
 }

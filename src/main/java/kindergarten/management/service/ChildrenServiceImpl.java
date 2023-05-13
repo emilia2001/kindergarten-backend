@@ -42,6 +42,15 @@ public class ChildrenServiceImpl implements ChildrenService {
     }
 
     @Override
+    public void updateChild(ChildDto childDto) {
+        ParentDto parentDto = childDto.getParent();
+        Parent parent = parentRepository.findByPhoneNumber(parentDto.getPhoneNumber());
+        Child childToBeAdded = childrenMapper.toEntity(childDto);
+        childToBeAdded.setParent(parent);
+        childrenRepository.save(childToBeAdded);
+    }
+
+    @Override
     public ChildDto findOneById(String cnp) {
         return childrenMapper.toDto(childrenRepository.getById(cnp));
     }

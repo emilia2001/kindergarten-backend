@@ -28,13 +28,13 @@ public class AttendanceController {
     }
 
     @PostMapping(value = Endpoints.ADD_ATTENDANCES)
-    public ResponseEntity saveAttendances(@RequestBody List<AttendanceDto> attendanceDtos) {
+    public ResponseEntity<Void> saveAttendances(@RequestBody List<AttendanceDto> attendanceDtos) {
         try {
             attendanceService.saveAll(attendanceDtos);
         } catch (Exception e) {
-            return new ResponseEntity(HttpStatus.BAD_REQUEST);
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
-        return new ResponseEntity(HttpStatus.OK);
+        return new ResponseEntity<>(HttpStatus.OK);
     }
 
 

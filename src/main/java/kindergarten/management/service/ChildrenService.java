@@ -10,5 +10,7 @@ public interface ChildrenService {
 
     void addChild(ChildDto childDto);
 
+    void updateChild(ChildDto childDto);
+
     ChildDto findOneById(String cnp);
 }
