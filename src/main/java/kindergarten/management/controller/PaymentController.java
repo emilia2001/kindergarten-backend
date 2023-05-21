@@ -5,8 +5,8 @@ import com.stripe.exception.StripeException;
 import com.stripe.model.Charge;
 import kindergarten.management.constants.Endpoints;
 import kindergarten.management.model.dto.ChargeRequest;
-import kindergarten.management.model.dto.PaymentDto;
-import kindergarten.management.model.dto.PaymentStatusDto;
+import kindergarten.management.model.dto.payment.PaymentDto;
+import kindergarten.management.model.dto.payment.PaymentStatusDto;
 import kindergarten.management.service.PaymentService;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -36,7 +36,7 @@ public class PaymentController {
     }
 
     @PreAuthorize("isAuthenticated() && hasAuthority('ADMIN')")
-    @PutMapping(value = Endpoints.UPDATE_PAYMENT, consumes = APPLICATION_JSON_VALUE, produces = APPLICATION_JSON_VALUE)
+    @PutMapping(value = Endpoints.UPDATE, consumes = APPLICATION_JSON_VALUE, produces = APPLICATION_JSON_VALUE)
     public ResponseEntity<Void> update(@PathVariable("id") final Long id, @RequestBody final PaymentDto paymentDto) {
         try {
             paymentDto.setId(id);
@@ -60,7 +60,7 @@ public class PaymentController {
         Stripe.apiKey = "sk_test_51N2F4DBquZgmE331IWNgu36doCouc1wFi1cg8QnuoXlYfLDNoFc9lp9VGDG8qGvHSpByzp7e4YQLw1qAHdeuvGpV00I78eECzS";
 
         Map<String, Object> params = new HashMap<>();
-        params.put("amount", chargeRequest.getAmount());
+        params.put("amount", chargeRequest.getAmount() * 100);
         params.put("currency", "RON");
         params.put("source", chargeRequest.getToken());
         params.put(
@@ -69,10 +69,10 @@ public class PaymentController {
         );
         try {
             Charge charge = Charge.create(params);
-            paymentService.updatePaymentStatus(chargeRequest.getPaymentId(), charge.getStatus());
-            return new ResponseEntity<>(new PaymentStatusDto(charge.getStatus()), HttpStatus.OK);
+            PaymentDto paymentDto = paymentService.updatePaymentStatus(chargeRequest.getPaymentId(), charge.getStatus(), chargeRequest.getAmount());
+            return new ResponseEntity<>(new PaymentStatusDto(charge.getStatus(), paymentDto), HttpStatus.OK);
         } catch (StripeException e) {
-            return new ResponseEntity<>(new PaymentStatusDto(e.getMessage()), HttpStatus.BAD_REQUEST);
+            return new ResponseEntity<>(new PaymentStatusDto(e.getMessage(), null), HttpStatus.BAD_REQUEST);
         }
     }
 

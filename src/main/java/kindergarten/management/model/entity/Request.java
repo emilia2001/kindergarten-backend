@@ -14,9 +14,13 @@ public class Request {
     private Long id;
 
     @Column(name = "status")
+    @Enumerated(EnumType.STRING)
     private ERequestStatus status;
 
     @Column(name = "comments")
     private String comments;
 
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "child_id")
+    private Child child;
 }

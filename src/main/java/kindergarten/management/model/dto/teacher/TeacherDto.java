@@ -21,7 +21,7 @@ public class TeacherDto {
 
     private LocalDate dateOfBirth;
 
-    private String picture;
+    private String picturePath;
 
     private GroupDto groupDto;
 }

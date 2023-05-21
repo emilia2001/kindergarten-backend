@@ -18,8 +18,8 @@ public class Announcement {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(name = "picture")
-    private byte[] picture;
+    @Column(name = "picture_path")
+    private String picturePath;
 
     @Column(name = "title")
     private String title;

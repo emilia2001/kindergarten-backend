@@ -2,9 +2,6 @@ package kindergarten.management.controller;
 
 import kindergarten.management.constants.Endpoints;
 import kindergarten.management.model.dto.AnnouncementDto;
-import kindergarten.management.model.dto.child.ChildDto;
-import kindergarten.management.model.dto.teacher.TeacherAddDto;
-import kindergarten.management.model.dto.teacher.TeacherDto;
 import kindergarten.management.service.AnnouncementService;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -24,13 +21,13 @@ public class AnnouncementController {
 
     private final AnnouncementService announcementService;
 
-    @GetMapping(value = Endpoints.GET_ALL_ANNOUNCEMENTS, produces = APPLICATION_JSON_VALUE)
+    @GetMapping(value = Endpoints.GET_ALL, produces = APPLICATION_JSON_VALUE)
     public ResponseEntity<List<AnnouncementDto>> getAll() {
         return ResponseEntity.ok(announcementService.findAllAnnouncements());
     }
 
     @PreAuthorize("isAuthenticated() && hasAuthority('ADMIN')")
-    @PostMapping(value = Endpoints.ADD_ANNOUNCEMENT, consumes = APPLICATION_JSON_VALUE, produces = APPLICATION_JSON_VALUE)
+    @PostMapping(value = Endpoints.ADD, consumes = APPLICATION_JSON_VALUE, produces = APPLICATION_JSON_VALUE)
     public ResponseEntity<Void> add(final @RequestBody AnnouncementDto announcementDto) {
         try {
             announcementService.addAnnouncement(announcementDto);
@@ -41,7 +38,7 @@ public class AnnouncementController {
     }
 
     @PreAuthorize("isAuthenticated() && hasAuthority('ADMIN')")
-    @DeleteMapping(value = Endpoints.DELETE_ANNOUNCEMENT)
+    @DeleteMapping(value = Endpoints.DELETE)
     public ResponseEntity<Void> delete(@PathVariable("id") final String id) {
         try {
             announcementService.deleteAnnouncement(id);
@@ -52,7 +49,7 @@ public class AnnouncementController {
     }
 
     @PreAuthorize("isAuthenticated() && hasAuthority('ADMIN')")
-    @PutMapping(value = Endpoints.UPDATE_ANNOUNCEMENT, consumes = APPLICATION_JSON_VALUE, produces = APPLICATION_JSON_VALUE)
+    @PutMapping(value = Endpoints.UPDATE, consumes = APPLICATION_JSON_VALUE, produces = APPLICATION_JSON_VALUE)
     public ResponseEntity<Void> update(@RequestBody final AnnouncementDto announcementDto) {
         try {
             announcementService.addAnnouncement(announcementDto);
@@ -60,5 +57,10 @@ public class AnnouncementController {
         } catch (Exception e) {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
+    }
+
+    @GetMapping(value = Endpoints.GET_BY_ID, produces = APPLICATION_JSON_VALUE)
+    public ResponseEntity<AnnouncementDto> getOneById(@PathVariable("id") final Long id) {
+        return ResponseEntity.ok(announcementService.findOneById(id));
     }
 }

@@ -20,7 +20,7 @@ public class ChildPaymentDto {
 
     private LocalDate dateOfBirth;
 
-    private String picture;
+    private String picturePath;
 
     private GroupDto group;
 }

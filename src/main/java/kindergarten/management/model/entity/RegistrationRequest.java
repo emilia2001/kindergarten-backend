@@ -1,6 +1,5 @@
 package kindergarten.management.model.entity;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
@@ -13,26 +12,18 @@ import javax.persistence.*;
 public class RegistrationRequest extends Request {
 
     @Column(name = "application_form")
-    private byte[] application_form;
+    private String applicationForm;
 
     @Column(name = "parent_identity_card")
-    private byte[] parentIdentityCard;
+    private String parentIdentityCard;
 
     @Column(name = "extra_documents")
-    private byte[] extraDocuments;
+    private String extraDocuments;
 
     @Column(name = "child_birth_certificate")
-    private byte[] childBirthCertificate;
+    private String childBirthCertificate;
 
     @Column(name = "parents_employee_certificates")
-    private byte[] parentsEmployeeCertificates;
+    private String parentsEmployeeCertificates;
 
-    @JsonIgnore
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "group_id")
-    private Group group;
-
-//    @ManyToOne(fetch = FetchType.LAZY)
-//    @Column(name = "requester_id")
-//    private Parent requester;
 }

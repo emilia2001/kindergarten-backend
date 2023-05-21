@@ -1,11 +1,8 @@
 package kindergarten.management.mapper;
 
-import kindergarten.management.model.dto.PaymentDto;
-import kindergarten.management.model.entity.Child;
+import kindergarten.management.model.dto.payment.PaymentDto;
 import kindergarten.management.model.entity.Payment;
 import org.mapstruct.Mapper;
-import org.mapstruct.Mapping;
-import org.mapstruct.Named;
 
 import java.util.List;
 

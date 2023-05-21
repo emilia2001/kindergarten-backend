@@ -27,7 +27,7 @@ public class AttendanceController {
         return ResponseEntity.ok(attendanceService.findAllForMonth(month));
     }
 
-    @PostMapping(value = Endpoints.ADD_ATTENDANCES)
+    @PostMapping(value = Endpoints.ADD)
     public ResponseEntity<Void> saveAttendances(@RequestBody List<AttendanceDto> attendanceDtos) {
         try {
             attendanceService.saveAll(attendanceDtos);

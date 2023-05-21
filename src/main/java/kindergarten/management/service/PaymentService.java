@@ -1,11 +1,7 @@
 package kindergarten.management.service;
 
-import com.stripe.exception.*;
-import com.stripe.model.Charge;
-import kindergarten.management.model.dto.ChargeRequest;
-import kindergarten.management.model.dto.PaymentDto;
+import kindergarten.management.model.dto.payment.PaymentDto;
 import kindergarten.management.model.entity.Payment;
-import kindergarten.management.model.enums.EPaymentStatus;
 
 import java.util.List;
 
@@ -17,7 +13,7 @@ public interface PaymentService {
 
     Payment updatePayment(PaymentDto paymentDto);
 
-    void updatePaymentStatus(Long id, String status);
+    PaymentDto updatePaymentStatus(Long id, String status, int amount);
 
     void saveAll(List<Payment> paymentsCurrentMonth);
 

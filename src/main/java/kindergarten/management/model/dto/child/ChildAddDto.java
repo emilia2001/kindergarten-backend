@@ -1,7 +1,6 @@
 package kindergarten.management.model.dto.child;
 
 import kindergarten.management.model.dto.GroupDto;
-import kindergarten.management.model.dto.parent.ParentAddDto;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -11,7 +10,7 @@ import java.time.LocalDate;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class ChildDto {
+public class ChildAddDto {
 
     private String cnp;
 
@@ -25,7 +24,5 @@ public class ChildDto {
 
     private GroupDto group;
 
-    private ParentAddDto parent;
-
-    private String status;
+    private Long parentId;
 }

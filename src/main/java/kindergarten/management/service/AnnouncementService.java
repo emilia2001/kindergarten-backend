@@ -11,5 +11,6 @@ public interface AnnouncementService {
     void addAnnouncement(AnnouncementDto announcementDto);
 
     void deleteAnnouncement(String id);
+    AnnouncementDto findOneById(final Long id);
 
 }

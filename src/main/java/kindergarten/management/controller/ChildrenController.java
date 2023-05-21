@@ -2,7 +2,6 @@ package kindergarten.management.controller;
 
 import kindergarten.management.constants.Endpoints;
 import kindergarten.management.model.dto.child.ChildDto;
-import kindergarten.management.model.dto.teacher.TeacherAddDto;
 import kindergarten.management.service.ChildrenService;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -23,12 +22,12 @@ public class ChildrenController {
 
     private final ChildrenService childrenService;
 
-    @GetMapping(value = Endpoints.GET_ALL_CHILDREN, produces = APPLICATION_JSON_VALUE)
+    @GetMapping(value = Endpoints.GET_ALL, produces = APPLICATION_JSON_VALUE)
     public ResponseEntity<List<ChildDto>> getAll() {
         return ResponseEntity.ok(childrenService.findAllChildren());
     }
 
-    @PostMapping(value = Endpoints.ADD_CHILD, consumes = APPLICATION_JSON_VALUE, produces = APPLICATION_JSON_VALUE)
+    @PostMapping(value = Endpoints.ADD, consumes = APPLICATION_JSON_VALUE, produces = APPLICATION_JSON_VALUE)
     public ResponseEntity<Void> add(@RequestBody final ChildDto childDto) {
         try {
             childrenService.addChild(childDto);
@@ -38,13 +37,13 @@ public class ChildrenController {
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
-    @GetMapping(value = Endpoints.GET_CHILD, produces = APPLICATION_JSON_VALUE)
+    @GetMapping(value = Endpoints.GET_BY_ID, produces = APPLICATION_JSON_VALUE)
     public ResponseEntity<ChildDto> getOneById(@PathVariable("id") final String cnp) {
         return ResponseEntity.ok(childrenService.findOneById(cnp));
     }
 
-    @PutMapping(value = Endpoints.UPDATE_CHILD, consumes = APPLICATION_JSON_VALUE, produces = APPLICATION_JSON_VALUE)
-    public ResponseEntity<Void> update(@RequestBody final ChildDto childDto) {
+    @PutMapping(value = Endpoints.UPDATE, consumes = APPLICATION_JSON_VALUE, produces = APPLICATION_JSON_VALUE)
+    public ResponseEntity<Void> update( @RequestBody final ChildDto childDto) {
         try {
             childrenService.updateChild(childDto);
             return new ResponseEntity<>(HttpStatus.OK);

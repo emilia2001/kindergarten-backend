@@ -32,4 +32,9 @@ public class AnnouncementServiceImpl implements AnnouncementService {
         announcement.setId(Long.valueOf(id));
         announcementRepository.delete(announcement);
     }
+
+    @Override
+    public AnnouncementDto findOneById(Long id) {
+        return announcementMapper.toDto(announcementRepository.getById(id));
+    }
 }

@@ -31,7 +31,7 @@ public class Teacher implements Serializable {
     private LocalDate dateOfBirth;
 
     @Column(name = "picture")
-    private byte[] picture;
+    private String picturePath;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "group_id")

@@ -2,7 +2,7 @@ package kindergarten.management.service.job;
 
 import kindergarten.management.service.PaymentService;
 import kindergarten.management.mapper.PaymentMapper;
-import kindergarten.management.model.dto.PaymentDto;
+import kindergarten.management.model.dto.payment.PaymentDto;
 import kindergarten.management.model.entity.Payment;
 import kindergarten.management.model.enums.EPaymentStatus;
 import kindergarten.management.service.AttendanceService;

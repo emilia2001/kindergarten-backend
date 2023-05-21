@@ -10,46 +10,40 @@ public class Endpoints {
 
     // TEACHER
     public static final String TEACHER ="/teacher";
-    public static final String GET_ALL_TEACHERS ="/all";
-    public static final String ADD_TEACHER ="/add";
-    public static final String GET_TEACHER = "/get/{id}";
-    public static final String UPDATE_TEACHER = "/update/{id}";
+
+    // PARENT
+    public static final String PARENT = "parent";
 
     // GROUP
     public static final String GROUP = "/group";
-    public static final String GET_ALL_GROUPS ="/all";
+    public static final String GET_SPOTS_COUNT_BY_ID = "/spots/{id}";
 
     // CHILDREN
     public static final String CHILDREN = "/children";
-    public static final String GET_ALL_CHILDREN = "/all";
-    public static final String ADD_CHILD = "/add";
-    public static final String UPDATE_CHILD = "/update";
-    public static final String GET_CHILD = "/get/{id}";
 
     // ATTENDANCE
     public static final String ATTENDANCE = "/attendance";
     public static final String GET_ALL_ATTENDANCES_BY_MONTH = "/all/{month}";
-    public static final String ADD_ATTENDANCES = "/add";
 
     // PAYMENT
     public static final String PAYMENT = "/payment";
     public static final String GET_ALL_PAYMENTS_BY_MONTH = "/all/month/{month}";
     public static final String GET_ALL_PAYMENTS_BY_PARENT = "/all/id/{id}";
-    public static final String UPDATE_PAYMENT = "/update/{id}";
 
     // ANNOUNCEMENT
     public static final String ANNOUNCEMENT = "/announcement";
-    public static final String GET_ALL_ANNOUNCEMENTS = "/all";
-    public static final String ADD_ANNOUNCEMENT = "/add";
-    public static final String UPDATE_ANNOUNCEMENT = "/update";
-    public static final String DELETE_ANNOUNCEMENT = "/delete/{id}";
 
     // REQUESTS
+    public static final String REGISTRATION_REQUEST = "/registration-request";
+    public static final String EXTENSION_REQUEST = "/extension-request";
 
-    public static final String REQUEST = "/request";
-    public static final String GET_ALL_REQUESTS = "/all";
-    public static final String GET_ALL_REQUESTS_FOR_PARENT = "/all/{id}";
-
+    // GENERAL
+    public static final String GET_ALL = "all";
+    public static final String GET_ALL_BY_ID = "all/{id}";
+    public static final String ADD = "/add";
+    public static final String UPDATE = "/update";
+    public static final String DELETE = "/delete/{id}";
+    public static final String GET_BY_ID = "/get/{id}";
 
 
 }

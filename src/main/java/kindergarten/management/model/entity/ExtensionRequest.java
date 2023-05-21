@@ -11,16 +11,7 @@ import javax.persistence.*;
 @EqualsAndHashCode(callSuper=false)
 public class ExtensionRequest extends Request {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
-
     @Column(name = "application_form")
-    private byte[] application_form;
-
-//    @ManyToOne(fetch = FetchType.LAZY)
-//    @Column(name = "requester_id")
-//    private Parent requester;
-
+    private String applicationForm;
 
 }

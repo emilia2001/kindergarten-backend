@@ -1,24 +1,15 @@
 package kindergarten.management.service;
 
-import com.stripe.exception.APIConnectionException;
-import com.stripe.exception.APIException;
-import com.stripe.exception.CardException;
-import com.stripe.exception.InvalidRequestException;
-import com.stripe.model.Charge;
 import kindergarten.management.mapper.PaymentMapper;
-import kindergarten.management.model.dto.ChargeRequest;
-import kindergarten.management.model.dto.PaymentDto;
+import kindergarten.management.model.dto.payment.PaymentDto;
 import kindergarten.management.model.entity.Payment;
 import kindergarten.management.model.enums.EPaymentStatus;
 import kindergarten.management.repository.PaymentRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
-import com.stripe.exception.AuthenticationException;
 import java.time.YearMonth;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
@@ -53,16 +44,31 @@ public class PaymentServiceImpl implements PaymentService {
     }
 
     @Override
-    public void updatePaymentStatus(final Long id, final String status) {
+    public PaymentDto updatePaymentStatus(final Long id, final String status, int amount) {
         Optional<Payment> paymentOpt = paymentRepository.findById(id);
         paymentOpt.ifPresent((Payment payment) -> {
-            payment.setStatus(mapStripeStatus(status));
+            EPaymentStatus newStatus = mapStripeStatus(status);
+            if (newStatus == EPaymentStatus.PAID) {
+                if (amount == payment.getTotalAmount()) {
+                    payment.setStatus(newStatus);
+                } else if (payment.getOutstandingAmount() == amount) {
+                    payment.setOutstandingAmount(0);
+                } else {
+                    if (payment.getOutstandingAmount() < amount) {
+                        payment.setOutstandingAmount(0);
+                        payment.setCurrentAmount(payment.getCurrentAmount() - amount);
+                    } else {
+                        payment.setOutstandingAmount(payment.getOutstandingAmount() - amount);
+                    }
+                }
+            }
             paymentRepository.save(payment);
         });
+        return paymentOpt.map(paymentMapper::toDto).orElse(null);
     }
 
     private EPaymentStatus mapStripeStatus(String status) {
-        if ("succeded".equals(status)) {
+        if ("succeeded".equals(status)) {
             return EPaymentStatus.PAID;
         } else {
             return EPaymentStatus.UNPAID;

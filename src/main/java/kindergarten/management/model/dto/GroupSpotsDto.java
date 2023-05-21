@@ -7,13 +7,9 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class ParentDto {
+public class GroupSpotsDto {
 
-    private String firstName;
-
-    private String lastName;
-
-    private String phoneNumber;
-
-    private String email;
+    Integer availableCount;
+    Integer unavailableCount;
+    Integer pendingCount;
 }

@@ -1,6 +1,7 @@
 package kindergarten.management.model.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import kindergarten.management.model.enums.EChildStatus;
 import lombok.*;
 
 import javax.persistence.*;
@@ -28,7 +29,11 @@ public class Child {
     private LocalDate dateOfBirth;
 
     @Column(name = "picture")
-    private byte[] picture;
+    private String picturePath;
+
+    @Column(name = "status")
+    @Enumerated(EnumType.STRING)
+    private EChildStatus status;
 
     @JsonIgnore
     @ManyToOne(fetch = FetchType.EAGER)

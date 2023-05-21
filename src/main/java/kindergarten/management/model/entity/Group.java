@@ -40,8 +40,4 @@ public class Group implements Serializable {
             orphanRemoval = true)
     private List<Teacher> teachers = new ArrayList<>();
 
-    @OneToMany(mappedBy = "group",
-            cascade = CascadeType.ALL,
-            orphanRemoval = true)
-    private List<RegistrationRequest> registrationRequests = new ArrayList<>();
 }

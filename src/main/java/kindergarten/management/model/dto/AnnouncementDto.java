@@ -11,7 +11,7 @@ public class AnnouncementDto {
 
     private Long id;
 
-    private String picture;
+    private String picturePath;
 
     private String title;
 

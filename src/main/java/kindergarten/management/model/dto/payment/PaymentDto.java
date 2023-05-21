@@ -1,8 +1,6 @@
-package kindergarten.management.model.dto;
+package kindergarten.management.model.dto.payment;
 
-import kindergarten.management.model.dto.child.ChildDto;
 import kindergarten.management.model.dto.child.ChildPaymentDto;
-import kindergarten.management.model.enums.EPaymentStatus;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;

@@ -18,18 +18,18 @@ import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
 @RequestMapping(Endpoints.TEACHER)
 @CrossOrigin()
 @AllArgsConstructor
-@PreAuthorize("isAuthenticated() && hasAuthority('ADMIN')")
 public class TeacherController {
 
     private final TeacherService teacherService;
 
 
-    @GetMapping(value = Endpoints.GET_ALL_TEACHERS, produces = APPLICATION_JSON_VALUE)
+    @GetMapping(value = Endpoints.GET_ALL, produces = APPLICATION_JSON_VALUE)
     public ResponseEntity<List<TeacherDto>> getAll() {
         return ResponseEntity.ok(teacherService.findAllTeachers());
     }
 
-    @PostMapping(value = Endpoints.ADD_TEACHER, consumes = APPLICATION_JSON_VALUE, produces = APPLICATION_JSON_VALUE)
+    @PreAuthorize("isAuthenticated() && hasAuthority('ADMIN')")
+    @PostMapping(value = Endpoints.ADD, consumes = APPLICATION_JSON_VALUE, produces = APPLICATION_JSON_VALUE)
     public ResponseEntity<Void> add(final @RequestBody TeacherAddDto teacherAddDto) {
         try {
             teacherService.addTeacher(teacherAddDto);
@@ -39,15 +39,16 @@ public class TeacherController {
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
-    @GetMapping(value = Endpoints.GET_TEACHER, produces = APPLICATION_JSON_VALUE)
+    @PreAuthorize("isAuthenticated() && hasAuthority('ADMIN')")
+    @GetMapping(value = Endpoints.GET_BY_ID, produces = APPLICATION_JSON_VALUE)
     public ResponseEntity<TeacherDto> getOneById(@PathVariable("id") final Long id) {
         return ResponseEntity.ok(teacherService.findOneById(id));
     }
 
-    @PutMapping(value = Endpoints.UPDATE_TEACHER, consumes = APPLICATION_JSON_VALUE, produces = APPLICATION_JSON_VALUE)
-    public ResponseEntity<Void> update(@PathVariable("id") final Long id, @RequestBody final TeacherAddDto teacherDto) {
+    @PreAuthorize("isAuthenticated() && hasAuthority('ADMIN')")
+    @PutMapping(value = Endpoints.UPDATE, consumes = APPLICATION_JSON_VALUE, produces = APPLICATION_JSON_VALUE)
+    public ResponseEntity<Void> update(@RequestBody final TeacherAddDto teacherDto) {
         try {
-            teacherDto.setId(id);
             teacherService.addTeacher(teacherDto);
             return new ResponseEntity<>(HttpStatus.OK);
         } catch (Exception e) {

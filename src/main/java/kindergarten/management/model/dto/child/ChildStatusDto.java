@@ -1,10 +1,10 @@
-package kindergarten.management.model.dto;
+package kindergarten.management.model.dto.child;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
 
 @Data
 @AllArgsConstructor
-public class PaymentStatusDto {
+public class ChildStatusDto {
     String status;
 }
