@@ -5,6 +5,7 @@ import com.stripe.exception.StripeException;
 import com.stripe.model.Charge;
 import kindergarten.management.constants.Endpoints;
 import kindergarten.management.model.dto.ChargeRequest;
+import kindergarten.management.model.dto.ChargeRequestAdmin;
 import kindergarten.management.model.dto.payment.PaymentDto;
 import kindergarten.management.model.dto.payment.PaymentStatusDto;
 import kindergarten.management.service.PaymentService;
@@ -72,6 +73,17 @@ public class PaymentController {
             PaymentDto paymentDto = paymentService.updatePaymentStatus(chargeRequest.getPaymentId(), charge.getStatus(), chargeRequest.getAmount());
             return new ResponseEntity<>(new PaymentStatusDto(charge.getStatus(), paymentDto), HttpStatus.OK);
         } catch (StripeException e) {
+            return new ResponseEntity<>(new PaymentStatusDto(e.getMessage(), null), HttpStatus.BAD_REQUEST);
+        }
+    }
+
+    @PreAuthorize("isAuthenticated() && hasAuthority('ADMIN')")
+    @PutMapping(value = "/charge-by-admin", consumes = APPLICATION_JSON_VALUE, produces = APPLICATION_JSON_VALUE)
+    public ResponseEntity<PaymentStatusDto> chargeByAdmin(@RequestBody ChargeRequestAdmin chargeRequest) {
+        try {
+            PaymentDto paymentDto = paymentService.updatePaymentStatusByAdmin(chargeRequest.getPaymentId(), chargeRequest.getAmount());
+            return new ResponseEntity<>(new PaymentStatusDto("success", paymentDto), HttpStatus.OK);
+        } catch (Exception e) {
             return new ResponseEntity<>(new PaymentStatusDto(e.getMessage(), null), HttpStatus.BAD_REQUEST);
         }
     }

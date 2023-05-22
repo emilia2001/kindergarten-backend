@@ -11,6 +11,7 @@ import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 
 import java.time.YearMonth;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -29,7 +30,11 @@ public class CreatePaymentsJob {
         YearMonth yearMonth = YearMonth.now().minusMonths(1);
         Map<String, Long> previousMonthAttendances = attendanceService.findAllNoAttendancesForMonth(yearMonth.toString());
         List<PaymentDto> previousMonthPayments = paymentService.findAllForMonth(yearMonth.toString());
-        List<Payment> paymentsCurrentMonth = paymentMapper.toEntities(previousMonthPayments);
+        List<Payment> paymentsCurrentMonth = new ArrayList<>();
+        paymentMapper.toEntities(previousMonthPayments).forEach(payment -> {
+            if (previousMonthAttendances.get(payment.getChild().getCnp()) != null)
+                paymentsCurrentMonth.add(payment);
+        });
         paymentsCurrentMonth.forEach(payment -> {
             payment.setId(null);
             if (payment.getStatus() == EPaymentStatus.UNPAID) {

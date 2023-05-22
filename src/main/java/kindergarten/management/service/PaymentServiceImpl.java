@@ -79,4 +79,25 @@ public class PaymentServiceImpl implements PaymentService {
     public void saveAll(List<Payment> paymentsCurrentMonth) {
         paymentRepository.saveAll(paymentsCurrentMonth);
     }
+
+    @Override
+    public PaymentDto updatePaymentStatusByAdmin(long paymentId, int amount) {
+        Optional<Payment> paymentOpt = paymentRepository.findById(paymentId);
+        paymentOpt.ifPresent((Payment payment) -> {
+            if (amount == payment.getTotalAmount()) {
+                payment.setStatus(EPaymentStatus.PAID);
+            } else if (payment.getOutstandingAmount() == amount) {
+                payment.setOutstandingAmount(0);
+            } else {
+                if (payment.getOutstandingAmount() < amount) {
+                    payment.setCurrentAmount(payment.getCurrentAmount() - (amount - payment.getOutstandingAmount()));
+                    payment.setOutstandingAmount(0);
+                } else {
+                    payment.setOutstandingAmount(payment.getOutstandingAmount() - amount);
+                }
+            }
+            paymentRepository.save(payment);
+        });
+        return paymentOpt.map(paymentMapper::toDto).orElse(null);
+    }
 }

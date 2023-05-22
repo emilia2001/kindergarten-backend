@@ -17,4 +17,5 @@ public interface PaymentService {
 
     void saveAll(List<Payment> paymentsCurrentMonth);
 
+    PaymentDto updatePaymentStatusByAdmin(long paymentId, int amount);
 }
