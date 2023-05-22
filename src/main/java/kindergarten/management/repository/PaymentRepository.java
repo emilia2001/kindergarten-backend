@@ -9,4 +9,6 @@ import java.util.List;
 public interface PaymentRepository extends JpaRepository<Payment, Long> {
 
     List<Payment> findAllByMonth(YearMonth month);
+
+    List<Payment> findAllByChildParentIdOrderByMonthDesc(Long parentId);
 }

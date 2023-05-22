@@ -29,6 +29,13 @@ public class Endpoints {
     public static final String PAYMENT = "/payment";
     public static final String GET_ALL_PAYMENTS_BY_MONTH = "/all/month/{month}";
     public static final String GET_ALL_PAYMENTS_BY_PARENT = "/all/id/{id}";
+    public static final String CHARGE = "/charge";
+    public static final String CHARGE_BY_ADMIN = "/charge-by-admin";
+
+    // PAYMENT CONFIRMATION
+    public static final String PAYMENT_CONFIRMATION = "/payment-confirmation";
+    public static final String NEXT_ID = "/next-id";
+
 
     // ANNOUNCEMENT
     public static final String ANNOUNCEMENT = "/announcement";

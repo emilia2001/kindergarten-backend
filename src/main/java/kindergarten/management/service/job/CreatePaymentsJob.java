@@ -1,7 +1,9 @@
 package kindergarten.management.service.job;
 
+import kindergarten.management.mapper.ChildrenMapper;
+import kindergarten.management.model.dto.child.ChildDto;
+import kindergarten.management.service.ChildrenService;
 import kindergarten.management.service.PaymentService;
-import kindergarten.management.mapper.PaymentMapper;
 import kindergarten.management.model.dto.payment.PaymentDto;
 import kindergarten.management.model.entity.Payment;
 import kindergarten.management.model.enums.EPaymentStatus;
@@ -14,6 +16,7 @@ import java.time.YearMonth;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 
 @Component
 @AllArgsConstructor
@@ -23,29 +26,43 @@ public class CreatePaymentsJob {
 
     private final AttendanceService attendanceService;
 
-    private final PaymentMapper paymentMapper;
+    private final ChildrenService childrenService;
+    private final ChildrenMapper childrenMapper;
 
-//    @Scheduled(fixedRate = 30 * 1000)
+//    @Scheduled(fixedRate = 30 * 10000)
     public void createAttendances() {
         YearMonth yearMonth = YearMonth.now().minusMonths(1);
         Map<String, Long> previousMonthAttendances = attendanceService.findAllNoAttendancesForMonth(yearMonth.toString());
         List<PaymentDto> previousMonthPayments = paymentService.findAllForMonth(yearMonth.toString());
+        List<ChildDto> children = childrenService.findAllChildren();
         List<Payment> paymentsCurrentMonth = new ArrayList<>();
-        paymentMapper.toEntities(previousMonthPayments).forEach(payment -> {
-            if (previousMonthAttendances.get(payment.getChild().getCnp()) != null)
-                paymentsCurrentMonth.add(payment);
-        });
-        paymentsCurrentMonth.forEach(payment -> {
-            payment.setId(null);
-            if (payment.getStatus() == EPaymentStatus.UNPAID) {
-                payment.setOutstandingAmount(payment.getTotalAmount());
-            } else {
+        children.forEach(child -> {
+            Payment payment = new Payment();
+            payment.setChild(childrenMapper.toEntity(child));
+            // Setting the current payment based on attendances
+            if (previousMonthAttendances.get(child.getCnp()) != null)
+                payment.setCurrentAmount(Math.toIntExact(previousMonthAttendances.get(child.getCnp())) * 15);
+            else
+                payment.setCurrentAmount(0);
+            // Get the previous month payment of child
+            Optional<PaymentDto> childPreviousMonthPayments = previousMonthPayments.stream().filter(paymentDto -> paymentDto.getChild().getCnp().equals(child.getCnp())).findFirst();
+            // If payment, check the status and set outstanding amount
+            childPreviousMonthPayments.ifPresent(paymentDto -> {
+                if (paymentDto.getStatus().equals(EPaymentStatus.UNPAID.toString()))
+                    payment.setOutstandingAmount(paymentDto.getTotalUnpaidAmount());
+                else
+                    payment.setOutstandingAmount(0);
+            });
+            // If absent, set outstanding amount to 0
+            if (childPreviousMonthPayments.isEmpty())
                 payment.setOutstandingAmount(0);
-            }
-            payment.setCurrentAmount(Math.toIntExact(previousMonthAttendances.get(payment.getChild().getCnp())) * 15);
-            payment.setTotalAmount(0);
             payment.setMonth(yearMonth.plusMonths(1));
-            payment.setStatus(EPaymentStatus.UNPAID);
+            payment.setTotalUnpaidAmount(payment.getOutstandingAmount() + payment.getCurrentAmount());
+            if (payment.getTotalUnpaidAmount() == 0)
+                payment.setStatus(EPaymentStatus.PAID);
+            else
+                payment.setStatus(EPaymentStatus.UNPAID);
+            paymentsCurrentMonth.add(payment);
         });
         paymentService.saveAll(paymentsCurrentMonth);
     }

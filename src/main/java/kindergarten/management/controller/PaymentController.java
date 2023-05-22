@@ -26,17 +26,18 @@ import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
 @RequestMapping(Endpoints.PAYMENT)
 @CrossOrigin()
 @AllArgsConstructor
+@PreAuthorize("isAuthenticated()")
 public class PaymentController {
 
     private final PaymentService paymentService;
 
-    @PreAuthorize("isAuthenticated() && hasAuthority('ADMIN')")
+    @PreAuthorize("hasAuthority('ADMIN')")
     @GetMapping(value = Endpoints.GET_ALL_PAYMENTS_BY_MONTH, produces = APPLICATION_JSON_VALUE)
     public ResponseEntity<List<PaymentDto>> getAllForMonth(@PathVariable("month") final String month) {
         return ResponseEntity.ok(paymentService.findAllForMonth(month));
     }
 
-    @PreAuthorize("isAuthenticated() && hasAuthority('ADMIN')")
+    @PreAuthorize("hasAuthority('ADMIN')")
     @PutMapping(value = Endpoints.UPDATE, consumes = APPLICATION_JSON_VALUE, produces = APPLICATION_JSON_VALUE)
     public ResponseEntity<Void> update(@PathVariable("id") final Long id, @RequestBody final PaymentDto paymentDto) {
         try {
@@ -48,14 +49,14 @@ public class PaymentController {
         }
     }
 
-    @PreAuthorize("isAuthenticated() && hasAuthority('PARENT')")
+    @PreAuthorize("hasAuthority('PARENT')")
     @GetMapping(value = Endpoints.GET_ALL_PAYMENTS_BY_PARENT, produces = APPLICATION_JSON_VALUE)
     public ResponseEntity<List<PaymentDto>> getAllForMonth(@PathVariable("id") final Long id) {
         return ResponseEntity.ok(paymentService.findAllForParent(id));
     }
 
-    @PreAuthorize("isAuthenticated() && hasAuthority('PARENT')")
-    @PostMapping(value = "/charge", consumes = APPLICATION_JSON_VALUE, produces = APPLICATION_JSON_VALUE)
+    @PreAuthorize("hasAuthority('PARENT')")
+    @PostMapping(value = Endpoints.CHARGE, consumes = APPLICATION_JSON_VALUE, produces = APPLICATION_JSON_VALUE)
     public ResponseEntity<PaymentStatusDto> charge(@RequestBody ChargeRequest chargeRequest)
             throws StripeException {
         Stripe.apiKey = "sk_test_51N2F4DBquZgmE331IWNgu36doCouc1wFi1cg8QnuoXlYfLDNoFc9lp9VGDG8qGvHSpByzp7e4YQLw1qAHdeuvGpV00I78eECzS";
@@ -77,8 +78,8 @@ public class PaymentController {
         }
     }
 
-    @PreAuthorize("isAuthenticated() && hasAuthority('ADMIN')")
-    @PutMapping(value = "/charge-by-admin", consumes = APPLICATION_JSON_VALUE, produces = APPLICATION_JSON_VALUE)
+    @PreAuthorize("hasAuthority('ADMIN')")
+    @PutMapping(value = Endpoints.CHARGE_BY_ADMIN, consumes = APPLICATION_JSON_VALUE, produces = APPLICATION_JSON_VALUE)
     public ResponseEntity<PaymentStatusDto> chargeByAdmin(@RequestBody ChargeRequestAdmin chargeRequest) {
         try {
             PaymentDto paymentDto = paymentService.updatePaymentStatusByAdmin(chargeRequest.getPaymentId(), chargeRequest.getAmount());

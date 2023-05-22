@@ -45,8 +45,8 @@ public class JwtTokenProvider {
         Claims claims = Jwts.claims().setSubject(user.getUsername());
         claims.put("username", user.getUsername());
         if (user instanceof Parent) {
-//        claims.put("firstName",parent.getFirstName());
-//        claims.put("lastName",parent.getLastName());
+        claims.put("firstName", ((Parent) user).getFirstName());
+        claims.put("lastName", ((Parent) user).getLastName());
 //        claims.put("email", ((Parent) user).getEmail());
             claims.put("id", user.getId());
             claims.put("role", EUserRole.PARENT);

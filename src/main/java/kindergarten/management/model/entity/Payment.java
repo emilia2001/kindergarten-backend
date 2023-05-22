@@ -40,6 +40,9 @@ public class Payment {
     @Formula("outstanding_amount + current_amount")
     private Integer totalAmount;
 
+    @Column(name = "unpaid_amount")
+    private Integer totalUnpaidAmount;
+
     @Enumerated(EnumType.STRING)
     @Column(name = "payment_type")
     private EPaymentStatus status;

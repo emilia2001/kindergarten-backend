@@ -25,5 +25,7 @@ public class PaymentDto {
 
     private Integer totalAmount;
 
+    private Integer totalUnpaidAmount;
+
     private String status;
 }
