@@ -57,4 +57,9 @@ public class ChildrenServiceImpl implements ChildrenService {
     public ChildDto findOneById(String cnp) {
         return childrenMapper.toDto(childrenRepository.getById(cnp));
     }
+
+    @Override
+    public void deleteChild(String cnp) {
+
+    }
 }

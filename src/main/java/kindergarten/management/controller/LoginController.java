@@ -4,6 +4,7 @@ import kindergarten.management.config.JwtTokenProvider;
 import kindergarten.management.constants.Endpoints;
 import kindergarten.management.model.dto.TokenDto;
 import kindergarten.management.model.dto.UserLoginDto;
+import kindergarten.management.model.dto.parent.ParentRegisterDto;
 import kindergarten.management.model.entity.User;
 import kindergarten.management.service.AuthenticationService;
 import lombok.AllArgsConstructor;
@@ -40,4 +41,19 @@ public class LoginController {
         }
     }
 
+    @PostMapping(value = Endpoints.REGISTER,
+            produces = APPLICATION_JSON_VALUE,
+            consumes = APPLICATION_JSON_VALUE)
+    public ResponseEntity<TokenDto> login(final @RequestBody ParentRegisterDto registerDto){
+        try {
+            User user = authService.registerParent(registerDto);
+            String token = jwtTokenProvider.createToken(user);
+            TokenDto tokenDto = new TokenDto();
+            tokenDto.setToken(token);
+            return ResponseEntity.ok(tokenDto);
+        } catch (Exception e) {
+//            return new ResponseEntity<>(new TokenDto("Invalid username/password supplied!"), HttpStatus.INTERNAL_SERVER_ERROR);
+            return new ResponseEntity<>(new TokenDto(), HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
 }

@@ -37,6 +37,16 @@ public class ChildrenController {
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
+    @DeleteMapping(value = Endpoints.DELETE)
+    public ResponseEntity<Void> delete(@PathVariable("id") final String cnp) {
+        try {
+            childrenService.deleteChild(cnp);
+        } catch (Exception e) {
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
+
     @GetMapping(value = Endpoints.GET_BY_ID, produces = APPLICATION_JSON_VALUE)
     public ResponseEntity<ChildDto> getOneById(@PathVariable("id") final String cnp) {
         return ResponseEntity.ok(childrenService.findOneById(cnp));

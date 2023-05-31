@@ -1,6 +1,7 @@
 package kindergarten.management.mapper;
 
 import kindergarten.management.model.dto.parent.ParentAddDto;
+import kindergarten.management.model.dto.parent.ParentRegisterDto;
 import kindergarten.management.model.entity.Parent;
 import org.mapstruct.Mapper;
 
@@ -12,6 +13,8 @@ public interface ParentMapper {
     ParentAddDto toDto(Parent parent);
 
     Parent toEntity(ParentAddDto parentAddDto);
+
+    Parent toEntityFromRegisterDto(ParentRegisterDto parentAddDto);
 
     List<ParentAddDto> toDto(List<Parent> parent);
 }

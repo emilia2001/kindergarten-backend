@@ -13,4 +13,6 @@ public interface ChildrenService {
     void updateChild(ChildDto childDto);
 
     ChildDto findOneById(String cnp);
+
+    void deleteChild(String cnp);
 }

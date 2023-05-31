@@ -14,6 +14,9 @@ public class Endpoints {
     // PARENT
     public static final String PARENT = "parent";
 
+    // ADMIN
+    public static final String ADMIN = "admin";
+
     // GROUP
     public static final String GROUP = "/group";
     public static final String GET_SPOTS_COUNT_BY_ID = "/spots/{id}";
