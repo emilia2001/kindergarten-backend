@@ -14,5 +14,5 @@ public interface ChildrenService {
 
     ChildDto findOneById(String cnp);
 
-    void deleteChild(String cnp);
+    void deleteChild(ChildDto childDto);
 }

@@ -45,16 +45,12 @@ public class JwtTokenProvider {
         Claims claims = Jwts.claims().setSubject(user.getUsername());
         claims.put("username", user.getUsername());
         if (user instanceof Parent) {
-        claims.put("firstName", ((Parent) user).getFirstName());
-        claims.put("lastName", ((Parent) user).getLastName());
-//        claims.put("email", ((Parent) user).getEmail());
+            claims.put("firstName", ((Parent) user).getFirstName());
+            claims.put("lastName", ((Parent) user).getLastName());
             claims.put("id", user.getId());
             claims.put("role", EUserRole.PARENT);
         } else {
-//        claims.put("firstName",parent.getFirstName());
-//        claims.put("lastName",parent.getLastName());
-//        claims.put("email", parent.getEmail());
-        claims.put("role", EUserRole.ADMIN);
+            claims.put("role", EUserRole.ADMIN);
         }
         Date now = new Date();
         Date validity = new Date(now.getTime() + validityInMilliseconds);

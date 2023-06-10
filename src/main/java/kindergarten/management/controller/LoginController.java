@@ -36,7 +36,6 @@ public class LoginController {
             tokenDto.setToken(token);
             return ResponseEntity.ok(tokenDto);
         } catch (Exception e) {
-//            return new ResponseEntity<>(new TokenDto("Invalid username/password supplied!"), HttpStatus.INTERNAL_SERVER_ERROR);
             return new ResponseEntity<>(new TokenDto(), HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
@@ -52,7 +51,6 @@ public class LoginController {
             tokenDto.setToken(token);
             return ResponseEntity.ok(tokenDto);
         } catch (Exception e) {
-//            return new ResponseEntity<>(new TokenDto("Invalid username/password supplied!"), HttpStatus.INTERNAL_SERVER_ERROR);
             return new ResponseEntity<>(new TokenDto(), HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }

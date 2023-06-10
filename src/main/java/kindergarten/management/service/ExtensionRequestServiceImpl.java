@@ -1,5 +1,6 @@
 package kindergarten.management.service;
 
+import kindergarten.management.exceptions.RequestException;
 import kindergarten.management.mapper.ExtensionRequestMapper;
 import kindergarten.management.model.dto.request.extension.ExtensionRequestParentDto;
 import kindergarten.management.model.entity.Child;
@@ -22,9 +23,12 @@ public class ExtensionRequestServiceImpl implements ExtensionRequestService {
     ExtensionRequestMapper requestMapper;
 
     @Override
-    public void addRequest(ExtensionRequestParentDto requestDto) {
+    public void addRequest(ExtensionRequestParentDto requestDto) throws RequestException {
         ExtensionRequest requestToBeAdded = requestMapper.toEntity(requestDto);
         Child child = requestToBeAdded.getChild();
+        if (requestRepository.findByChild(requestToBeAdded.getChild()) != null) {
+            throw new RequestException("Mai există o cerere pentru același copil");
+        }
         Parent parent = new Parent();
         parent.setId(requestDto.getChild().getParentId());
         child.setParent(parent);
@@ -35,7 +39,7 @@ public class ExtensionRequestServiceImpl implements ExtensionRequestService {
 
     @Override
     public List<ExtensionRequestParentDto> findAllRequestsByParent(Long id) {
-        return requestMapper.toParentDtos(requestRepository.findAllByChildParentId(id));
+        return requestMapper.toParentDtos(requestRepository.findAllByChildParentIdOrderByIdDesc(id));
     }
 
     @Override
@@ -49,7 +53,19 @@ public class ExtensionRequestServiceImpl implements ExtensionRequestService {
     }
 
     @Override
-    public void updateRequest(ExtensionRequestParentDto requestDto) {
+    public void updateRequestByAdmin(ExtensionRequestParentDto requestDto) {
         requestRepository.save(requestMapper.toEntity(requestDto));
+    }
+
+    @Override
+    public void updateRequestByParent(ExtensionRequestParentDto requestDto) {
+        ExtensionRequest requestToBeAdded = requestMapper.toEntity(requestDto);
+        Parent parent = new Parent();
+        parent.setId(requestDto.getChild().getParentId());
+        Child child = requestToBeAdded.getChild();
+        child.setParent(parent);
+        child.setStatus(EChildStatus.PENDING);
+        childrenRepository.save(child);
+        requestRepository.save(requestToBeAdded);
     }
 }

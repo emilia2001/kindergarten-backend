@@ -20,6 +20,7 @@ import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
 @AllArgsConstructor
 @PreAuthorize("isAuthenticated()")
 public class PaymentConfirmationController {
+
     PaymentConfirmationService confirmationService;
 
     @PreAuthorize("hasAuthority('ADMIN')")

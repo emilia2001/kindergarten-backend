@@ -23,9 +23,7 @@ import java.util.Optional;
 public class CreatePaymentsJob {
 
     private final PaymentService paymentService;
-
     private final AttendanceService attendanceService;
-
     private final ChildrenService childrenService;
     private final ChildrenMapper childrenMapper;
 

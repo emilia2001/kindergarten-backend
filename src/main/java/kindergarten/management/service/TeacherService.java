@@ -14,4 +14,5 @@ public interface TeacherService {
 
     TeacherDto findOneById(final Long id);
 
+    void deleteTeacher(Long id);
 }

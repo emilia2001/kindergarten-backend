@@ -18,7 +18,7 @@ public class AnnouncementServiceImpl implements AnnouncementService {
 
     @Override
     public List<AnnouncementDto> findAllAnnouncements() {
-        return announcementMapper.toDtos(announcementRepository.findAll());
+        return announcementMapper.toDtos(announcementRepository.findAllByOrderByIdDesc());
     }
 
     @Override

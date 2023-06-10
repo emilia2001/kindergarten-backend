@@ -1,6 +1,7 @@
 package kindergarten.management.controller;
 
 import kindergarten.management.constants.Endpoints;
+import kindergarten.management.model.dto.ExceptionDto;
 import kindergarten.management.model.dto.request.extension.ExtensionRequestParentDto;
 import kindergarten.management.service.ExtensionRequestService;
 import lombok.AllArgsConstructor;
@@ -24,19 +25,29 @@ public class ExtensionRequestController {
 
     @PreAuthorize("hasAuthority('PARENT')")
     @PostMapping(value = Endpoints.ADD, consumes = APPLICATION_JSON_VALUE, produces = APPLICATION_JSON_VALUE)
-    public ResponseEntity<Void> add(@RequestBody final ExtensionRequestParentDto requestDto) {
+    public ResponseEntity<ExceptionDto> add(@RequestBody final ExtensionRequestParentDto requestDto) {
         try {
             requestService.addRequest(requestDto);
+        } catch (Exception e) {
+            return new ResponseEntity<>(new ExceptionDto(e.getMessage()), HttpStatus.BAD_REQUEST);
+        }
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
+
+    @PutMapping(value = Endpoints.UPDATE_BY_ADMIN, consumes = APPLICATION_JSON_VALUE, produces = APPLICATION_JSON_VALUE)
+    public ResponseEntity<Void> updateByAdmin(@RequestBody final ExtensionRequestParentDto requestDto) {
+        try {
+            requestService.updateRequestByAdmin(requestDto);
         } catch (Exception e) {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
-    @PutMapping(value = Endpoints.UPDATE, consumes = APPLICATION_JSON_VALUE, produces = APPLICATION_JSON_VALUE)
-    public ResponseEntity<Void> update(@RequestBody final ExtensionRequestParentDto requestDto) {
+    @PutMapping(value = Endpoints.UPDATE_BY_PARENT, consumes = APPLICATION_JSON_VALUE, produces = APPLICATION_JSON_VALUE)
+    public ResponseEntity<Void> updateByParent(@RequestBody final ExtensionRequestParentDto requestDto) {
         try {
-            requestService.updateRequest(requestDto);
+            requestService.updateRequestByParent(requestDto);
         } catch (Exception e) {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }

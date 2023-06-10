@@ -1,5 +1,7 @@
 package kindergarten.management.service;
 
+import kindergarten.management.exceptions.PaymentException;
+import kindergarten.management.model.dto.ChargeRequest;
 import kindergarten.management.model.dto.payment.PaymentDto;
 import kindergarten.management.model.entity.Payment;
 
@@ -13,7 +15,7 @@ public interface PaymentService {
 
     Payment updatePayment(PaymentDto paymentDto);
 
-    PaymentDto updatePaymentStatus(Long id, String status, int amount);
+    PaymentDto chargeByParent(ChargeRequest chargeRequest) throws PaymentException;
 
     void saveAll(List<Payment> paymentsCurrentMonth);
 

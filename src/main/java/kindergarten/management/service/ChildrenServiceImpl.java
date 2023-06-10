@@ -5,6 +5,7 @@ import kindergarten.management.mapper.ParentMapper;
 import kindergarten.management.model.dto.parent.ParentAddDto;
 import kindergarten.management.model.dto.child.ChildDto;
 import kindergarten.management.model.entity.Child;
+import kindergarten.management.model.entity.Group;
 import kindergarten.management.model.entity.Parent;
 import kindergarten.management.model.enums.EChildStatus;
 import kindergarten.management.repository.ChildrenRepository;
@@ -25,7 +26,7 @@ public class ChildrenServiceImpl implements ChildrenService {
 
     @Override
     public List<ChildDto> findAllChildren() {
-        return childrenMapper.toDtos(childrenRepository.findAllByStatus(EChildStatus.APPROVED));
+        return childrenMapper.toDtos(childrenRepository.findAllByStatusOrderByLastNameAscFirstNameAsc(EChildStatus.APPROVED));
     }
 
     @Override
@@ -46,11 +47,30 @@ public class ChildrenServiceImpl implements ChildrenService {
     @Override
     public void updateChild(ChildDto childDto) {
         ParentAddDto parentAddDto = childDto.getParent();
-        Parent parent = parentRepository.findByPhoneNumber(parentAddDto.getPhoneNumber());
-        Child childToBeAdded = childrenMapper.toEntity(childDto);
-        childToBeAdded.setStatus(EChildStatus.APPROVED);
-        childToBeAdded.setParent(parent);
-        childrenRepository.save(childToBeAdded);
+        Parent parent = parentRepository.findById(parentAddDto.getId()).orElse(null);
+        if (parent != null) {
+            parent.setLastName(parentAddDto.getLastName());
+            parent.setFirstName(parentAddDto.getFirstName());
+            parent.setEmail(parentAddDto.getEmail());
+            parent.setPhoneNumber(parentAddDto.getPhoneNumber());
+            parentRepository.save(parent);
+
+            Child childToUpdate = childrenRepository.findById(childDto.getCnp()).orElse(null);
+            if (childToUpdate != null) {
+                childToUpdate.setCnp(childDto.getCnp());
+                childToUpdate.setPicturePath(childDto.getPicturePath());
+                childToUpdate.setLastName(childDto.getLastName());
+                childToUpdate.setFirstName(childDto.getFirstName());
+                childToUpdate.setDateOfBirth(childDto.getDateOfBirth());
+                Group group = new Group();
+                group.setId(childDto.getGroup().getId());
+                childToUpdate.setGroup(group);
+                // Update other child properties as needed
+                childToUpdate.setStatus(EChildStatus.APPROVED);
+                childToUpdate.setParent(parent);
+                childrenRepository.save(childToUpdate);
+            }
+        }
     }
 
     @Override
@@ -59,7 +79,12 @@ public class ChildrenServiceImpl implements ChildrenService {
     }
 
     @Override
-    public void deleteChild(String cnp) {
-
+    public void deleteChild(ChildDto childDto) {
+        Child child = childrenMapper.toEntity(childDto);
+        ParentAddDto parentAddDto = childDto.getParent();
+        Parent parent = parentRepository.findByPhoneNumber(parentAddDto.getPhoneNumber());
+        child.setParent(parent);
+        child.setStatus(EChildStatus.REJECTED);
+        childrenRepository.save(child);
     }
 }

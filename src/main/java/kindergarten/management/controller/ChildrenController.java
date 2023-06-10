@@ -28,19 +28,19 @@ public class ChildrenController {
     }
 
     @PostMapping(value = Endpoints.ADD, consumes = APPLICATION_JSON_VALUE, produces = APPLICATION_JSON_VALUE)
-    public ResponseEntity<Void> add(@RequestBody final ChildDto childDto) {
+    public ResponseEntity<String> add(@RequestBody final ChildDto childDto) {
         try {
             childrenService.addChild(childDto);
         } catch (Exception e) {
-            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+            return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
         }
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
-    @DeleteMapping(value = Endpoints.DELETE)
-    public ResponseEntity<Void> delete(@PathVariable("id") final String cnp) {
+    @PutMapping(value = Endpoints.DELETE, consumes = APPLICATION_JSON_VALUE)
+    public ResponseEntity<Void> delete(@RequestBody final ChildDto childDto) {
         try {
-            childrenService.deleteChild(cnp);
+            childrenService.deleteChild(childDto);
         } catch (Exception e) {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
@@ -53,12 +53,12 @@ public class ChildrenController {
     }
 
     @PutMapping(value = Endpoints.UPDATE, consumes = APPLICATION_JSON_VALUE, produces = APPLICATION_JSON_VALUE)
-    public ResponseEntity<Void> update( @RequestBody final ChildDto childDto) {
+    public ResponseEntity<String> update( @RequestBody final ChildDto childDto) {
         try {
             childrenService.updateChild(childDto);
             return new ResponseEntity<>(HttpStatus.OK);
         } catch (Exception e) {
-            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+            return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
         }
     }
 }

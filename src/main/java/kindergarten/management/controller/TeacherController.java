@@ -56,4 +56,15 @@ public class TeacherController {
         }
     }
 
+    @PreAuthorize("isAuthenticated() && hasAuthority('ADMIN')")
+    @DeleteMapping(value = Endpoints.DELETE_BY_ID)
+    public ResponseEntity<Void> delete(@PathVariable("id") final Long id) {
+        try {
+            teacherService.deleteTeacher(id);
+        } catch (Exception e) {
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
+
 }

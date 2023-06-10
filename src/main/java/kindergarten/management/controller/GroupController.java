@@ -19,6 +19,7 @@ import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
 @AllArgsConstructor
 @PreAuthorize("isAuthenticated()")
 public class GroupController {
+
     private final GroupService groupService;
 
     @GetMapping(value = Endpoints.GET_ALL, produces = APPLICATION_JSON_VALUE)

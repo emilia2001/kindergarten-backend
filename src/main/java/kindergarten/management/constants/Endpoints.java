@@ -11,9 +11,6 @@ public class Endpoints {
     // TEACHER
     public static final String TEACHER ="/teacher";
 
-    // PARENT
-    public static final String PARENT = "parent";
-
     // ADMIN
     public static final String ADMIN = "admin";
 
@@ -34,6 +31,7 @@ public class Endpoints {
     public static final String GET_ALL_PAYMENTS_BY_PARENT = "/all/id/{id}";
     public static final String CHARGE = "/charge";
     public static final String CHARGE_BY_ADMIN = "/charge-by-admin";
+    public static final String SEND_EMAIL = "send-email";
 
     // PAYMENT CONFIRMATION
     public static final String PAYMENT_CONFIRMATION = "/payment-confirmation";
@@ -46,13 +44,16 @@ public class Endpoints {
     // REQUESTS
     public static final String REGISTRATION_REQUEST = "/registration-request";
     public static final String EXTENSION_REQUEST = "/extension-request";
+    public static final String UPDATE_BY_PARENT = "/update-by-parent";
+    public static final String UPDATE_BY_ADMIN = "/update-by-admin";
 
     // GENERAL
     public static final String GET_ALL = "all";
     public static final String GET_ALL_BY_ID = "all/{id}";
     public static final String ADD = "/add";
     public static final String UPDATE = "/update";
-    public static final String DELETE = "/delete/{id}";
+    public static final String DELETE = "/delete";
+    public static final String DELETE_BY_ID = "/delete/{id}";
     public static final String GET_BY_ID = "/get/{id}";
 
 

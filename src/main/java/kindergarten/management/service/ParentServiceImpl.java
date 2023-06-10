@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 @Service
 @AllArgsConstructor
 public class ParentServiceImpl implements ParentService{
+
     private ParentRepository parentRepository;
 
     @Override

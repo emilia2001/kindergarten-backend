@@ -18,7 +18,6 @@ import java.util.Optional;
 public class TeacherServiceImpl implements TeacherService {
 
     private final TeacherRepository teacherRepository;
-
     private final GroupRepository groupRepository;
     private final TeacherMapper teacherMapper;
 
@@ -38,6 +37,13 @@ public class TeacherServiceImpl implements TeacherService {
     @Override
     public TeacherDto findOneById(Long id) {
         return teacherMapper.toTeacherDto(teacherRepository.getById(id));
+    }
+
+    @Override
+    public void deleteTeacher(Long id) {
+        Teacher teacher = new Teacher();
+        teacher.setId(id);
+        teacherRepository.delete(teacher);
     }
 
 }

@@ -15,7 +15,6 @@ import java.util.Optional;
 public class PaymentConfirmationServiceImpl implements PaymentConfirmationService {
 
     PaymentConfirmationRepository paymentConfirmationRepository;
-
     PaymentConfirmationMapper paymentConfirmationMapper;
 
     @Override

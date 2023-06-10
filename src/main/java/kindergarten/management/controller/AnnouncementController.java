@@ -38,7 +38,7 @@ public class AnnouncementController {
     }
 
     @PreAuthorize("isAuthenticated() && hasAuthority('ADMIN')")
-    @DeleteMapping(value = Endpoints.DELETE)
+    @DeleteMapping(value = Endpoints.DELETE_BY_ID)
     public ResponseEntity<Void> delete(@PathVariable("id") final String id) {
         try {
             announcementService.deleteAnnouncement(id);

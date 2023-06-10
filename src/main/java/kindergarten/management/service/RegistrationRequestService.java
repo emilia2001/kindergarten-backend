@@ -1,12 +1,13 @@
 package kindergarten.management.service;
 
+import kindergarten.management.exceptions.RequestException;
 import kindergarten.management.model.dto.request.registration.RegistrationRequestParentDto;
 
 import java.util.List;
 
 public interface RegistrationRequestService {
 
-    void addRequest(RegistrationRequestParentDto requestDto);
+    void addRequest(RegistrationRequestParentDto requestDto) throws RequestException;
 
     List<RegistrationRequestParentDto> findAllRequestsByParent(Long id);
 
@@ -14,5 +15,7 @@ public interface RegistrationRequestService {
 
     List<RegistrationRequestParentDto> findAllRequests();
 
-    void updateRequest(RegistrationRequestParentDto requestDto);
+    void updateRequestByAdmin(RegistrationRequestParentDto requestDto);
+
+    void updateRequestByParent(RegistrationRequestParentDto requestDto);
 }

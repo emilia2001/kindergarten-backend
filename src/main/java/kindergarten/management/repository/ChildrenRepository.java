@@ -10,7 +10,7 @@ import java.util.List;
 @Repository
 public interface ChildrenRepository extends JpaRepository<Child, String> {
 
-    List<Child> findAllByStatus(EChildStatus status);
+    List<Child> findAllByStatusOrderByLastNameAscFirstNameAsc(EChildStatus status);
 
     Integer countByGroup_IdAndStatus(Long groupId, EChildStatus status);
 }

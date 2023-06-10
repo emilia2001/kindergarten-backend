@@ -1,14 +1,13 @@
 package kindergarten.management.controller;
 
-import com.stripe.Stripe;
 import com.stripe.exception.StripeException;
-import com.stripe.model.Charge;
 import kindergarten.management.constants.Endpoints;
 import kindergarten.management.model.dto.ChargeRequest;
 import kindergarten.management.model.dto.ChargeRequestAdmin;
 import kindergarten.management.model.dto.payment.PaymentDto;
 import kindergarten.management.model.dto.payment.PaymentStatusDto;
 import kindergarten.management.service.PaymentService;
+import kindergarten.management.service.email.EmailSenderService;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -16,9 +15,7 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
 
@@ -30,6 +27,7 @@ import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
 public class PaymentController {
 
     private final PaymentService paymentService;
+    private final EmailSenderService emailSenderService;
 
     @PreAuthorize("hasAuthority('ADMIN')")
     @GetMapping(value = Endpoints.GET_ALL_PAYMENTS_BY_MONTH, produces = APPLICATION_JSON_VALUE)
@@ -57,23 +55,11 @@ public class PaymentController {
 
     @PreAuthorize("hasAuthority('PARENT')")
     @PostMapping(value = Endpoints.CHARGE, consumes = APPLICATION_JSON_VALUE, produces = APPLICATION_JSON_VALUE)
-    public ResponseEntity<PaymentStatusDto> charge(@RequestBody ChargeRequest chargeRequest)
-            throws StripeException {
-        Stripe.apiKey = "sk_test_51N2F4DBquZgmE331IWNgu36doCouc1wFi1cg8QnuoXlYfLDNoFc9lp9VGDG8qGvHSpByzp7e4YQLw1qAHdeuvGpV00I78eECzS";
-
-        Map<String, Object> params = new HashMap<>();
-        params.put("amount", chargeRequest.getAmount() * 100);
-        params.put("currency", "RON");
-        params.put("source", chargeRequest.getToken());
-        params.put(
-                "description",
-                "My First Test Charge (created for API docs at https://www.stripe.com/docs/api)"
-        );
+    public ResponseEntity<PaymentStatusDto> charge(@RequestBody ChargeRequest chargeRequest) {
         try {
-            Charge charge = Charge.create(params);
-            PaymentDto paymentDto = paymentService.updatePaymentStatus(chargeRequest.getPaymentId(), charge.getStatus(), chargeRequest.getAmount());
-            return new ResponseEntity<>(new PaymentStatusDto(charge.getStatus(), paymentDto), HttpStatus.OK);
-        } catch (StripeException e) {
+            PaymentDto paymentDto = paymentService.chargeByParent(chargeRequest);
+            return new ResponseEntity<>(new PaymentStatusDto("Success", paymentDto), HttpStatus.OK);
+        } catch (Exception e) {
             return new ResponseEntity<>(new PaymentStatusDto(e.getMessage(), null), HttpStatus.BAD_REQUEST);
         }
     }
@@ -93,5 +79,16 @@ public class PaymentController {
     public String handleError(Model model, StripeException ex) {
         model.addAttribute("error", ex.getMessage());
         return "result";
+    }
+
+    @PreAuthorize("hasAuthority('ADMIN')")
+    @GetMapping(value = Endpoints.SEND_EMAIL, produces = APPLICATION_JSON_VALUE)
+    public ResponseEntity<List<PaymentDto>> sendEmail() {
+        try {
+            emailSenderService.sendEmail();
+            return new ResponseEntity<>(HttpStatus.OK);
+        } catch (Exception e) {
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
     }
 }

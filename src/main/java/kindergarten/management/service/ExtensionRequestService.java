@@ -1,12 +1,13 @@
 package kindergarten.management.service;
 
+import kindergarten.management.exceptions.RequestException;
 import kindergarten.management.model.dto.request.extension.ExtensionRequestParentDto;
 
 import java.util.List;
 
 public interface ExtensionRequestService {
 
-    void addRequest(ExtensionRequestParentDto requestDto);
+    void addRequest(ExtensionRequestParentDto requestDto) throws RequestException;
 
     List<ExtensionRequestParentDto> findAllRequestsByParent(Long id);
 
@@ -14,5 +15,7 @@ public interface ExtensionRequestService {
 
     List<ExtensionRequestParentDto> findAllRequests();
 
-    void updateRequest(ExtensionRequestParentDto requestDto);
+    void updateRequestByAdmin(ExtensionRequestParentDto requestDto);
+
+    void updateRequestByParent(ExtensionRequestParentDto requestDto);
 }
