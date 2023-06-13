@@ -57,13 +57,11 @@ public class PaymentServiceImpl implements PaymentService {
         if (payment == null) {
             throw new PaymentException("Plata nu exista");
         }
-
         if (payment.getTotalUnpaidAmount() > chargeRequest.getAmount()) {
-            throw new PaymentException("");
+            throw new PaymentException("Suma depășește suma de plată");
         }
 
         int amount = chargeRequest.getAmount();
-
         Map<String, Object> params = new HashMap<>();
         params.put("amount", amount * 100);
         params.put("currency", "RON");
