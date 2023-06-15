@@ -39,7 +39,7 @@ public class PaymentServiceImpl implements PaymentService {
 
     @Override
     public List<PaymentDto> findAllForParent(Long id) {
-        return paymentMapper.toDtos(paymentRepository.findAllByChildParentIdOrderByMonthDescChildFirstNameAsc(id));
+        return paymentMapper.toDtos(paymentRepository.findAllByChildParentIdOrderByMonthDescChildLastNameAsc(id));
     }
 
     @Override

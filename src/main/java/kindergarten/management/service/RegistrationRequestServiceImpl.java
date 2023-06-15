@@ -9,6 +9,7 @@ import kindergarten.management.model.entity.RegistrationRequest;
 import kindergarten.management.model.enums.EChildStatus;
 import kindergarten.management.model.enums.ERequestStatus;
 import kindergarten.management.repository.ChildrenRepository;
+import kindergarten.management.repository.GroupRepository;
 import kindergarten.management.repository.RegistrationRequestRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -21,6 +22,7 @@ public class RegistrationRequestServiceImpl implements RegistrationRequestServic
 
     RegistrationRequestRepository requestRepository;
     ChildrenRepository childrenRepository;
+    GroupRepository groupRepository;
     RegistrationRequestMapper requestMapper;
 
     @Override
@@ -54,8 +56,18 @@ public class RegistrationRequestServiceImpl implements RegistrationRequestServic
     }
 
     @Override
-    public void updateRequestByAdmin(RegistrationRequestParentDto requestDto) {
+    public void updateRequestByAdmin(RegistrationRequestParentDto requestDto) throws RequestException {
+        Long groupId = requestDto.getChild().getGroup().getId();
+        int groupCapacity = groupRepository.findById(groupId).get().getCapacity();
+        int unavailableSpots = childrenRepository.countByGroup_IdAndStatus(groupId, EChildStatus.APPROVED);
+        if (ERequestStatus.valueOf(requestDto.getStatus()) == ERequestStatus.APPROVED) {
+            if (groupCapacity - unavailableSpots == 0) {
+                throw new RequestException("Toate locurile sunt ocupate!");
+            }
+        }
+
         requestRepository.save(requestMapper.toEntity(requestDto));
+
         Child child = childrenRepository.getById(requestDto.getChild().getCnp());
         if (ERequestStatus.valueOf(requestDto.getStatus()) == ERequestStatus.APPROVED) {
             child.setStatus(EChildStatus.APPROVED);

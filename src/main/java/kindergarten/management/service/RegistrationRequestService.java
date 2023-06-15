@@ -15,7 +15,7 @@ public interface RegistrationRequestService {
 
     List<RegistrationRequestParentDto> findAllRequests();
 
-    void updateRequestByAdmin(RegistrationRequestParentDto requestDto);
+    void updateRequestByAdmin(RegistrationRequestParentDto requestDto) throws RequestException;
 
     void updateRequestByParent(RegistrationRequestParentDto requestDto);
 }

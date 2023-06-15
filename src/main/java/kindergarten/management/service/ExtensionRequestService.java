@@ -15,7 +15,7 @@ public interface ExtensionRequestService {
 
     List<ExtensionRequestParentDto> findAllRequests();
 
-    void updateRequestByAdmin(ExtensionRequestParentDto requestDto);
+    void updateRequestByAdmin(ExtensionRequestParentDto requestDto) throws RequestException;
 
     void updateRequestByParent(ExtensionRequestParentDto requestDto);
 }
