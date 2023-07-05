@@ -11,6 +11,6 @@ public interface AuthenticationService {
 
     User findUser(UserLoginDto loginDto);
 
-    Parent registerParent(ParentRegisterDto registerDto);
+    Parent registerParent(ParentRegisterDto registerDto) throws Exception;
 
 }

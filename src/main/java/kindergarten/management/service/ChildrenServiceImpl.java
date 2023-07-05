@@ -47,9 +47,8 @@ public class ChildrenServiceImpl implements ChildrenService {
     @Override
     public void updateChild(ChildDto childDto) {
         ParentAddDto parentAddDto = childDto.getParent();
-//        Parent parent = parentRepository.findById(parentAddDto.getId()).orElse(null);
-        Parent parent = new Parent();
-//        if (parent != null) {
+        Parent parent = parentRepository.findById(parentAddDto.getId()).orElse(null);
+        if (parent != null) {
             parent.setLastName(parentAddDto.getLastName());
             parent.setFirstName(parentAddDto.getFirstName());
             parent.setEmail(parentAddDto.getEmail());
@@ -72,7 +71,7 @@ public class ChildrenServiceImpl implements ChildrenService {
                 childrenRepository.save(childToUpdate);
             }
         }
-//    }
+    }
 
     @Override
     public ChildDto findOneById(String cnp) {

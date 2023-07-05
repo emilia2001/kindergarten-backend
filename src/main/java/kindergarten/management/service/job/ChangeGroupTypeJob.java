@@ -15,7 +15,7 @@ public class ChangeGroupTypeJob {
 
     private final GroupRepository groupRepository;
 
-    @Scheduled(cron = "0 0 1 1 7 *")
+//    @Scheduled(cron = "0 0 1 1 7 *")
     public void changeGroupTypes() {
         List<Group> groups = groupRepository.findAll();
 

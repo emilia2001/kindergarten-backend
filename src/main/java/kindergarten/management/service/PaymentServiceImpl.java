@@ -57,7 +57,7 @@ public class PaymentServiceImpl implements PaymentService {
         if (payment == null) {
             throw new PaymentException("Plata nu exista");
         }
-        if (payment.getTotalUnpaidAmount() > chargeRequest.getAmount()) {
+        if (payment.getTotalUnpaidAmount() < chargeRequest.getAmount()) {
             throw new PaymentException("Suma depășește suma de plată");
         }
 

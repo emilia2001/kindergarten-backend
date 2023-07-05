@@ -20,7 +20,7 @@ public class ChangeChildStatusJob {
     private final GroupRepository groupRepository;
 
 
-    @Scheduled(cron = "0 0 2 1 7 *")
+//    @Scheduled(cron = "0 0 2 1 7 *")
     public void changeChildStatus() {
         List<Group> groups = groupRepository.findByGroupType(EGroupType.SENIOR);
 

@@ -1,6 +1,7 @@
 package kindergarten.management.service;
 
 import kindergarten.management.mapper.ParentMapper;
+import kindergarten.management.model.dto.ExceptionDto;
 import kindergarten.management.model.dto.parent.ParentRegisterDto;
 import kindergarten.management.model.entity.Parent;
 import kindergarten.management.model.enums.EUserRole;
@@ -34,12 +35,21 @@ public class AuthenticationServiceImpl implements AuthenticationService {
     }
 
     @Override
-    public Parent registerParent(ParentRegisterDto registerDto) {
+    public Parent registerParent(ParentRegisterDto registerDto) throws Exception {
         registerDto.setPassword(passwordEncoder.encode(registerDto.getPassword()));
-        Parent existingParent = parentRepository.findByEmail(registerDto.getEmail());
+        Parent existingParentWithUsername = parentRepository.findByUsername(registerDto.getUsername());
+        if (existingParentWithUsername != null) {
+            throw new Exception("Există deja un cont cu acest nume de utilizator");
+        }
+
+        Parent existingParentWithEmail = parentRepository.findByEmail(registerDto.getEmail());
         Parent parent = parentMapper.toEntityFromRegisterDto(registerDto);
-        if (existingParent != null)
-            parent.setId(existingParent.getId());
+        if (existingParentWithEmail != null) {
+            if (existingParentWithEmail.getUsername() != null) {
+                throw new Exception("Există deja un cont cu acest email!");
+            }
+            parent.setId(existingParentWithEmail.getId());
+        }
         parentRepository.save(parent);
         return parent;
     }

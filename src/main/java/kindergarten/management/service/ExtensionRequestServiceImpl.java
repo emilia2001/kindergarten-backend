@@ -1,6 +1,7 @@
 package kindergarten.management.service;
 
 import kindergarten.management.exceptions.RequestException;
+import kindergarten.management.mapper.ChildrenMapper;
 import kindergarten.management.mapper.ExtensionRequestMapper;
 import kindergarten.management.model.dto.request.extension.ExtensionRequestParentDto;
 import kindergarten.management.model.entity.Child;
@@ -28,15 +29,15 @@ public class ExtensionRequestServiceImpl implements ExtensionRequestService {
     @Override
     public void addRequest(ExtensionRequestParentDto requestDto) throws RequestException {
         ExtensionRequest requestToBeAdded = requestMapper.toEntity(requestDto);
-        Child child = requestToBeAdded.getChild();
         if (requestRepository.findByChild(requestToBeAdded.getChild()) != null) {
             throw new RequestException("Mai există o cerere pentru același copil");
         }
-        Parent parent = new Parent();
-        parent.setId(requestDto.getChild().getParentId());
-        child.setParent(parent);
-        child.setStatus(EChildStatus.PENDING);
-        childrenRepository.save(child);
+        Child childRequest = requestToBeAdded.getChild();
+        Child current = childrenRepository.getById(childRequest.getCnp());
+        current.setPicturePath(childRequest.getPicturePath());
+        current.setGroup(childRequest.getGroup());
+        current.setStatus(EChildStatus.PENDING);
+        childrenRepository.save(current);
         requestRepository.save(requestToBeAdded);
     }
 
@@ -65,18 +66,24 @@ public class ExtensionRequestServiceImpl implements ExtensionRequestService {
                 throw new RequestException("Toate locurile sunt ocupate!");
             }
         }
+        Child child = childrenRepository.getById(requestDto.getChild().getCnp());
+        child.setStatus(getChildStatusFromRequest(ERequestStatus.valueOf(requestDto.getStatus())));
         requestRepository.save(requestMapper.toEntity(requestDto));
+    }
+
+    private EChildStatus getChildStatusFromRequest(ERequestStatus status) {
+        return status == ERequestStatus.APPROVED ? EChildStatus.APPROVED : (status == ERequestStatus.REJECTED ? EChildStatus.REJECTED : EChildStatus.PENDING);
     }
 
     @Override
     public void updateRequestByParent(ExtensionRequestParentDto requestDto) {
         ExtensionRequest requestToBeAdded = requestMapper.toEntity(requestDto);
-        Parent parent = new Parent();
-        parent.setId(requestDto.getChild().getParentId());
-        Child child = requestToBeAdded.getChild();
-        child.setParent(parent);
-        child.setStatus(EChildStatus.PENDING);
-        childrenRepository.save(child);
+        Child childRequest = requestToBeAdded.getChild();
+        Child current = childrenRepository.getById(childRequest.getCnp());
+        current.setPicturePath(childRequest.getPicturePath());
+        current.setGroup(childRequest.getGroup());
+        current.setStatus(EChildStatus.PENDING);
+        childrenRepository.save(current);
         requestRepository.save(requestToBeAdded);
     }
 }
